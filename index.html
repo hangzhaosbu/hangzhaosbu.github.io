@@ -3,24 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hang Zhao - Research Scientist & Computer Science Ph.D.</title>
+    <title>Hang Zhao | 赵航 - Research Scientist & Computer Science Ph.D.</title>
     
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --primary-dark: #0a0e27;
-            --primary-blue: #2563eb;
-            --accent-purple: #8b5cf6;
-            --accent-cyan: #06b6d4;
-            --text-primary: #1e293b;
-            --text-secondary: #64748b;
-            --bg-light: #f8fafc;
-            --bg-card: #ffffff;
-            --border-light: #e2e8f0;
-            --gradient-hero: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --gradient-text: linear-gradient(135deg, #2563eb 0%, #8b5cf6 100%);
+            /* Chinese Ink Wash Color Palette */
+            --ink-black: #1a1a1a;
+            --ink-gray-900: #2d2d2d;
+            --ink-gray-700: #4a4a4a;
+            --ink-gray-500: #6b6b6b;
+            --ink-gray-300: #9a9a9a;
+            --ink-gray-100: #e0e0e0;
+            --rice-paper: #f5f2eb;
+            --jade-green: #7fb069;
+            --bamboo-green: #5a8654;
+            --plum-red: #c73e1d;
+            --gold-accent: #d4af37;
+            --water-blue: #6b8cae;
+            --mist-white: rgba(245, 242, 235, 0.9);
         }
 
         * {
@@ -30,584 +33,284 @@
         }
 
         body {
-            font-family: 'Inter', -apple-system, sans-serif;
-            background: var(--bg-light);
-            color: var(--text-primary);
+            font-family: 'Noto Sans SC', -apple-system, sans-serif;
+            background: var(--rice-paper);
+            color: var(--ink-black);
             overflow-x: hidden;
-            line-height: 1.6;
+            line-height: 1.8;
+            position: relative;
         }
 
-        /* Animated Background */
-        .hero-background {
+        /* Chinese Landscape Background */
+        .mountain-landscape {
             position: fixed;
+            width: 100%;
+            height: 100%;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100vh;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            opacity: 0.03;
-            z-index: -1;
+            z-index: -3;
+            opacity: 0.15;
+            background: 
+                radial-gradient(ellipse at top, transparent 30%, var(--rice-paper) 70%),
+                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 800'%3E%3Cpath d='M0,400 C200,350 300,450 500,400 C700,350 800,450 1000,400 L1200,400 L1200,800 L0,800 Z' fill='%234a4a4a' opacity='0.3'/%3E%3Cpath d='M0,500 C300,450 400,550 700,500 C900,450 1000,550 1200,500 L1200,800 L0,800 Z' fill='%236b6b6b' opacity='0.2'/%3E%3Cpath d='M0,600 C400,550 500,650 900,600 C1000,580 1100,620 1200,600 L1200,800 L0,800 Z' fill='%239a9a9a' opacity='0.1'/%3E%3C/svg%3E");
+            background-size: cover;
+            background-position: center bottom;
+            animation: mountainFloat 30s ease-in-out infinite;
         }
 
-        .floating-shapes {
+        @keyframes mountainFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        /* Floating Clouds */
+        .clouds {
             position: fixed;
             width: 100%;
-            height: 100vh;
-            overflow: hidden;
-            z-index: -1;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -2;
+            pointer-events: none;
         }
 
-        .shape {
+        .cloud {
             position: absolute;
-            border-radius: 50%;
-            background: linear-gradient(135deg, rgba(37, 99, 235, 0.1), rgba(139, 92, 246, 0.1));
-            animation: float 20s infinite ease-in-out;
+            background: radial-gradient(ellipse, rgba(255, 255, 255, 0.3), transparent);
+            border-radius: 100%;
+            opacity: 0.4;
+            animation: cloudDrift 60s infinite linear;
         }
 
-        .shape:nth-child(1) {
+        .cloud:nth-child(1) {
             width: 300px;
-            height: 300px;
-            top: 10%;
-            left: 10%;
-            animation-delay: 0s;
+            height: 100px;
+            top: 20%;
+            left: -300px;
+            animation-duration: 40s;
         }
 
-        .shape:nth-child(2) {
-            width: 200px;
-            height: 200px;
-            top: 70%;
-            right: 10%;
-            animation-delay: 5s;
-        }
-
-        .shape:nth-child(3) {
-            width: 150px;
-            height: 150px;
+        .cloud:nth-child(2) {
+            width: 400px;
+            height: 120px;
             top: 40%;
-            left: 50%;
+            left: -400px;
+            animation-duration: 50s;
             animation-delay: 10s;
         }
 
-        @keyframes float {
-            0%, 100% {
-                transform: translate(0, 0) rotate(0deg);
+        .cloud:nth-child(3) {
+            width: 350px;
+            height: 90px;
+            top: 60%;
+            left: -350px;
+            animation-duration: 45s;
+            animation-delay: 20s;
+        }
+
+        @keyframes cloudDrift {
+            from { transform: translateX(0); }
+            to { transform: translateX(calc(100vw + 100%)); }
+        }
+
+        /* Bamboo Leaves Animation */
+        .bamboo-leaves {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .leaf {
+            position: absolute;
+            width: 30px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--bamboo-green), var(--jade-green));
+            border-radius: 0% 100% 0% 100%;
+            opacity: 0.1;
+            animation: leafFall 15s infinite linear;
+        }
+
+        @keyframes leafFall {
+            0% {
+                transform: translateY(-100px) rotate(0deg);
+                opacity: 0;
             }
-            25% {
-                transform: translate(30px, -30px) rotate(90deg);
+            10% {
+                opacity: 0.1;
             }
-            50% {
-                transform: translate(-20px, 20px) rotate(180deg);
+            90% {
+                opacity: 0.1;
             }
-            75% {
-                transform: translate(20px, -10px) rotate(270deg);
+            100% {
+                transform: translateY(calc(100vh + 100px)) rotate(360deg);
+                opacity: 0;
             }
         }
 
-        /* Navigation Bar */
+        .leaf:nth-child(odd) {
+            animation-duration: 20s;
+            width: 25px;
+            height: 50px;
+        }
+
+        .leaf:nth-child(even) {
+            animation-duration: 18s;
+            animation-delay: 5s;
+        }
+
+        /* Navigation with Chinese Style */
         nav {
             position: fixed;
             top: 0;
             width: 100%;
-            background: rgba(255, 255, 255, 0.95);
+            padding: 1.5rem 0;
+            background: linear-gradient(to bottom, var(--mist-white), transparent);
             backdrop-filter: blur(10px);
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
             z-index: 1000;
-            padding: 1rem 0;
-            animation: slideDown 0.5s ease-out;
+            transition: all 0.3s ease;
+        }
+
+        nav.scrolled {
+            background: var(--mist-white);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
         }
 
         .nav-container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
-            padding: 0 2rem;
+            padding: 0 3rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
         .nav-logo {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1.8rem;
             font-weight: 700;
-            background: var(--gradient-text);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: var(--ink-black);
+            text-decoration: none;
+        }
+
+        .chinese-name {
+            font-size: 1.2rem;
+            color: var(--plum-red);
+            font-weight: 500;
+            padding: 0.2rem 0.8rem;
+            border: 2px solid var(--plum-red);
+            border-radius: 4px;
         }
 
         .nav-links {
             display: flex;
-            gap: 2rem;
+            gap: 3rem;
             list-style: none;
         }
 
         .nav-links a {
-            color: var(--text-secondary);
+            color: var(--ink-gray-700);
             text-decoration: none;
             font-weight: 500;
-            transition: all 0.3s ease;
             position: relative;
-        }
-
-        .nav-links a:hover {
-            color: var(--primary-blue);
+            transition: all 0.3s ease;
+            padding: 0.5rem 0;
         }
 
         .nav-links a::after {
             content: '';
             position: absolute;
-            bottom: -5px;
+            bottom: 0;
             left: 0;
             width: 0;
             height: 2px;
-            background: var(--primary-blue);
+            background: var(--plum-red);
             transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--plum-red);
         }
 
         .nav-links a:hover::after {
             width: 100%;
         }
 
-        /* Main Container */
+        /* Container */
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
-            padding: 6rem 2rem 2rem;
+            padding: 6rem 3rem 3rem;
+            position: relative;
+            z-index: 1;
         }
 
-        /* Hero Section */
+        /* Hero Section with Calligraphy Style */
         .hero {
-            min-height: 80vh;
+            min-height: 100vh;
             display: flex;
             align-items: center;
+            position: relative;
             padding: 4rem 0;
-            animation: fadeInUp 1s ease-out;
         }
 
         .hero-content {
             display: grid;
-            grid-template-columns: 1fr 300px;
-            gap: 4rem;
+            grid-template-columns: 1fr 400px;
+            gap: 5rem;
             align-items: center;
         }
 
         .hero-text h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(2.5rem, 5vw, 4rem);
-            font-weight: 900;
-            line-height: 1.1;
+            font-family: 'Noto Serif SC', serif;
+            font-size: clamp(3rem, 6vw, 5rem);
+            font-weight: 700;
+            line-height: 1.2;
             margin-bottom: 1rem;
-            background: var(--gradient-text);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: slideInLeft 0.8s ease-out;
+            color: var(--ink-black);
+            position: relative;
+            opacity: 0;
+            animation: brushStroke 1.5s ease forwards;
+        }
+
+        @keyframes brushStroke {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+                filter: blur(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+                filter: blur(0);
+            }
         }
 
         .hero-text .subtitle {
             font-size: 1.5rem;
-            color: var(--text-secondary);
+            color: var(--plum-red);
             margin-bottom: 2rem;
-            animation: slideInLeft 0.8s ease-out 0.2s both;
+            font-weight: 500;
+            opacity: 0;
+            animation: fadeInUp 1s ease forwards;
+            animation-delay: 0.5s;
         }
 
         .hero-text .description {
             font-size: 1.1rem;
-            line-height: 1.8;
-            color: var(--text-secondary);
+            line-height: 2;
+            color: var(--ink-gray-700);
             margin-bottom: 2rem;
-            animation: slideInLeft 0.8s ease-out 0.4s both;
-        }
-
-        .hero-image {
-            position: relative;
-            animation: slideInRight 0.8s ease-out;
-        }
-
-        .hero-image-wrapper {
-            position: relative;
-            width: 250px;
-            height: 250px;
-            margin: 0 auto;
-        }
-
-        .hero-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            animation: morph 8s ease-in-out infinite;
-        }
-
-        @keyframes morph {
-            0%, 100% {
-                border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
-            }
-            50% {
-                border-radius: 70% 30% 30% 70% / 70% 70% 30% 30%;
-            }
-        }
-
-        .hero-image::before {
-            content: '';
-            position: absolute;
-            top: -10px;
-            left: -10px;
-            right: -10px;
-            bottom: -10px;
-            background: var(--gradient-hero);
-            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
-            z-index: -1;
-            opacity: 0.3;
-            animation: morph 8s ease-in-out infinite reverse;
-        }
-
-        /* Quick Links */
-        .quick-links {
-            display: flex;
-            gap: 1rem;
-            margin-top: 2rem;
-            flex-wrap: wrap;
-            animation: slideInLeft 0.8s ease-out 0.6s both;
-        }
-
-        .quick-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.75rem 1.5rem;
-            background: var(--bg-card);
-            border: 2px solid var(--border-light);
-            border-radius: 50px;
-            text-decoration: none;
-            color: var(--text-primary);
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-
-        .quick-link:hover {
-            background: var(--primary-blue);
-            color: white;
-            border-color: var(--primary-blue);
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(37, 99, 235, 0.2);
-        }
-
-        /* Section Styles */
-        .section {
-            margin: 4rem 0;
-            animation: fadeInUp 0.8s ease-out;
-        }
-
-        .section-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 2rem;
-            position: relative;
-            padding-left: 1rem;
-        }
-
-        .section-title::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 4px;
-            height: 100%;
-            background: var(--gradient-hero);
-        }
-
-        /* Publications */
-        .publication-grid {
-            display: grid;
-            gap: 1.5rem;
-        }
-
-        .publication-card {
-            background: var(--bg-card);
-            padding: 2rem;
-            border-radius: 16px;
-            border: 1px solid var(--border-light);
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .publication-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: var(--gradient-hero);
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform 0.3s ease;
-        }
-
-        .publication-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
-        }
-
-        .publication-card:hover::before {
-            transform: scaleX(1);
-        }
-
-        .publication-title {
-            font-weight: 600;
-            color: var(--text-primary);
-            margin-bottom: 0.5rem;
-            line-height: 1.4;
-        }
-
-        .publication-authors {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .publication-venue {
-            color: var(--accent-purple);
-            font-style: italic;
-            font-size: 0.95rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .publication-links {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-
-        .publication-link {
-            color: var(--primary-blue);
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
-        }
-
-        .publication-link:hover {
-            color: var(--accent-purple);
-        }
-
-        .badge {
-            display: inline-block;
-            padding: 0.25rem 0.75rem;
-            background: linear-gradient(135deg, #f59e0b, #ef4444);
-            color: white;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            margin-left: 0.5rem;
-        }
-
-        /* Experience Cards */
-        .experience-card {
-            background: var(--bg-card);
-            padding: 2rem;
-            border-radius: 16px;
-            border: 1px solid var(--border-light);
-            margin-bottom: 1.5rem;
-            position: relative;
-            padding-left: 3rem;
-        }
-
-        .experience-card::before {
-            content: '';
-            position: absolute;
-            left: 1rem;
-            top: 2rem;
-            width: 12px;
-            height: 12px;
-            background: var(--primary-blue);
-            border-radius: 50%;
-        }
-
-        .experience-title {
-            font-weight: 600;
-            color: var(--text-primary);
-            margin-bottom: 0.5rem;
-        }
-
-        .experience-company {
-            color: var(--accent-purple);
-            font-weight: 500;
-            margin-bottom: 0.25rem;
-        }
-
-        .experience-details {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-        }
-
-        /* Skills Grid */
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .skill-category {
-            background: var(--bg-card);
-            padding: 1.5rem;
-            border-radius: 16px;
-            border: 1px solid var(--border-light);
-        }
-
-        .skill-category h4 {
-            color: var(--primary-blue);
-            margin-bottom: 1rem;
-            font-weight: 600;
-        }
-
-        .skill-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-        }
-
-        .skill-tag {
-            padding: 0.25rem 0.75rem;
-            background: var(--bg-light);
-            border: 1px solid var(--border-light);
-            border-radius: 20px;
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-            font-family: 'JetBrains Mono', monospace;
-        }
-
-        /* Awards Section */
-        .awards-grid {
-            display: grid;
-            gap: 1rem;
-        }
-
-        .award-item {
-            background: linear-gradient(135deg, rgba(139, 92, 246, 0.05), rgba(37, 99, 235, 0.05));
-            padding: 1.5rem;
-            border-radius: 12px;
-            border-left: 4px solid var(--accent-purple);
-            transition: all 0.3s ease;
-        }
-
-        .award-item:hover {
-            transform: translateX(8px);
-        }
-
-        .award-title {
-            font-weight: 600;
-            color: var(--text-primary);
-            margin-bottom: 0.25rem;
-        }
-
-        .award-details {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-        }
-
-        /* Certificates Section */
-        .certificates-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 1rem;
-        }
-
-        .certificate-item {
-            background: var(--bg-card);
-            padding: 1rem;
-            border-radius: 12px;
-            border: 1px solid var(--border-light);
-            transition: all 0.3s ease;
-        }
-
-        .certificate-item:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
-        }
-
-        .certificate-item a {
-            color: var(--text-primary);
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 0.95rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .certificate-item a:hover {
-            color: var(--primary-blue);
-        }
-
-        .certificate-icon {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            background: var(--gradient-text);
-            -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z'%3E%3C/path%3E%3Cpolyline points='14 2 14 8 20 8'%3E%3C/polyline%3E%3C/svg%3E") center/contain no-repeat;
-            mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z'%3E%3C/path%3E%3Cpolyline points='14 2 14 8 20 8'%3E%3C/polyline%3E%3C/svg%3E") center/contain no-repeat;
-        }
-
-        /* Footer */
-        footer {
-            margin-top: 6rem;
-            padding: 3rem 0;
-            background: linear-gradient(135deg, var(--primary-dark), #1e293b);
-            color: white;
-            text-align: center;
-        }
-
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-
-        .footer-links {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            margin-bottom: 2rem;
-        }
-
-        .footer-links a {
-            color: rgba(255, 255, 255, 0.8);
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-
-        .footer-links a:hover {
-            color: white;
-        }
-
-        .footer-divider {
-            width: 80px;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
-            margin: 2rem auto;
-        }
-
-        .footer-copyright {
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 0.9rem;
-        }
-
-        /* Animations */
-        @keyframes slideDown {
-            from {
-                transform: translateY(-100%);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
+            opacity: 0;
+            animation: fadeInUp 1s ease forwards;
+            animation-delay: 0.7s;
         }
 
         @keyframes fadeInUp {
@@ -621,88 +324,778 @@
             }
         }
 
-        @keyframes slideInLeft {
-            from {
-                opacity: 0;
-                transform: translateX(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
+        /* Image with Ink Wash Effect */
+        .hero-image {
+            position: relative;
+            opacity: 0;
+            animation: fadeIn 1.5s ease forwards;
+            animation-delay: 1s;
         }
 
-        @keyframes slideInRight {
-            from {
-                opacity: 0;
-                transform: translateX(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
+        @keyframes fadeIn {
+            to { opacity: 1; }
         }
 
-        /* Scroll animations */
-        .scroll-reveal {
+        .image-wrapper {
+            position: relative;
+            width: 350px;
+            height: 350px;
+            margin: 0 auto;
+        }
+
+        .image-frame {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            padding: 20px;
+            background: linear-gradient(135deg, var(--rice-paper), white);
+            box-shadow: 
+                0 10px 40px rgba(0, 0, 0, 0.1),
+                inset 0 0 40px rgba(0, 0, 0, 0.05);
+            transform: rotate(-2deg);
+            transition: transform 0.5s ease;
+        }
+
+        .image-frame:hover {
+            transform: rotate(0deg) scale(1.05);
+        }
+
+        .image-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: sepia(10%) contrast(0.95);
+            border: 3px solid white;
+        }
+
+        .image-seal {
+            position: absolute;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: var(--plum-red);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-family: 'Noto Serif SC', serif;
+            font-weight: 700;
+            font-size: 1.2rem;
+            box-shadow: 0 2px 10px rgba(199, 62, 29, 0.3);
+            transform: rotate(15deg);
+        }
+
+        /* Quick Links with Jade Style */
+        .quick-links {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 3rem;
+            flex-wrap: wrap;
+            opacity: 0;
+            animation: fadeInUp 1s ease forwards;
+            animation-delay: 0.9s;
+        }
+
+        .quick-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 2rem;
+            background: white;
+            border: 2px solid var(--jade-green);
+            border-radius: 30px;
+            text-decoration: none;
+            color: var(--ink-black);
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .quick-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, var(--jade-green), transparent);
+            opacity: 0.3;
+            transition: left 0.5s ease;
+        }
+
+        .quick-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(127, 176, 105, 0.2);
+            background: var(--jade-green);
+            color: white;
+        }
+
+        .quick-link:hover::before {
+            left: 100%;
+        }
+
+        /* Section Styles */
+        .section {
+            margin: 6rem 0;
             opacity: 0;
             transform: translateY(30px);
             transition: all 0.8s ease;
         }
 
-        .scroll-reveal.active {
+        .section.visible {
             opacity: 1;
             transform: translateY(0);
         }
 
-        /* Responsive Design */
+        .section-title {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 3rem;
+            color: var(--ink-black);
+            position: relative;
+            display: inline-block;
+            padding-bottom: 1rem;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--plum-red), transparent);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.8s ease;
+        }
+
+        .section.visible .section-title::after {
+            transform: scaleX(1);
+        }
+
+        .section-subtitle {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1rem;
+            color: var(--ink-gray-500);
+            font-style: italic;
+            margin-top: -2.5rem;
+            margin-bottom: 2rem;
+            opacity: 0.8;
+        }
+
+        /* Publication Cards */
+        .publication-grid {
+            display: grid;
+            gap: 2rem;
+        }
+
+        .publication-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            border-left: 4px solid var(--jade-green);
+            position: relative;
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+        .publication-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, var(--jade-green), transparent);
+            opacity: 0.05;
+            transform: translate(50px, -50px);
+            transition: all 0.5s ease;
+        }
+
+        .publication-card:hover {
+            transform: translateX(10px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        .publication-card:hover::before {
+            transform: translate(0, 0);
+            opacity: 0.1;
+        }
+
+        .publication-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--ink-black);
+            line-height: 1.5;
+        }
+
+        .publication-authors {
+            color: var(--ink-gray-500);
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .publication-venue {
+            color: var(--jade-green);
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+
+        .publication-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .publication-link {
+            color: var(--water-blue);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .publication-link:hover {
+            color: var(--jade-green);
+            transform: translateX(5px);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.3rem 1rem;
+            background: linear-gradient(135deg, var(--gold-accent), var(--plum-red));
+            color: white;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-left: 1rem;
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+
+        /* Experience Timeline */
+        .timeline {
+            position: relative;
+            padding: 2rem 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50px;
+            top: 0;
+            height: 100%;
+            width: 2px;
+            background: linear-gradient(180deg, var(--jade-green), var(--water-blue));
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-left: 100px;
+            margin-bottom: 3rem;
+            opacity: 0;
+            transform: translateX(-30px);
+            animation: slideIn 0.8s ease forwards;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 44px;
+            top: 5px;
+            width: 14px;
+            height: 14px;
+            background: white;
+            border: 3px solid var(--jade-green);
+            border-radius: 50%;
+            box-shadow: 0 0 0 4px rgba(127, 176, 105, 0.2);
+        }
+
+        @keyframes slideIn {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Skills with Brush Stroke Style */
+        .skills-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .skill-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            position: relative;
+            transition: all 0.3s ease;
+            border-top: 3px solid var(--jade-green);
+        }
+
+        .skill-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        .skill-card h4 {
+            color: var(--jade-green);
+            margin-bottom: 1.5rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .skill-tag {
+            padding: 0.4rem 1rem;
+            background: var(--rice-paper);
+            border: 1px solid var(--jade-green);
+            border-radius: 20px;
+            font-size: 0.85rem;
+            color: var(--ink-gray-700);
+            font-family: 'JetBrains Mono', monospace;
+            transition: all 0.3s ease;
+        }
+
+        .skill-tag:hover {
+            background: var(--jade-green);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Awards Section */
+        .awards-container {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .award-item {
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.05), rgba(127, 176, 105, 0.05));
+            padding: 2rem;
+            border-radius: 10px;
+            border-left: 4px solid var(--gold-accent);
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .award-item:hover {
+            transform: translateX(10px);
+            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.15);
+        }
+
+        .award-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--ink-black);
+            margin-bottom: 0.5rem;
+        }
+
+        .award-details {
+            color: var(--ink-gray-500);
+        }
+
+        /* Certificates */
+        .certificates-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .certificate-item {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .certificate-item::before {
+            content: '证';
+            position: absolute;
+            right: 15px;
+            top: 15px;
+            font-family: 'Noto Serif SC', serif;
+            font-size: 2rem;
+            color: var(--plum-red);
+            opacity: 0.1;
+            font-weight: 700;
+        }
+
+        .certificate-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+            background: linear-gradient(135deg, white, var(--rice-paper));
+        }
+
+        .certificate-item a {
+            color: var(--ink-black);
+            text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .certificate-item a:hover {
+            color: var(--jade-green);
+        }
+
+        /* Academic Service */
+        .service-container {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .service-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .service-list li {
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--ink-gray-100);
+            color: var(--ink-gray-700);
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            padding-left: 2rem;
+            position: relative;
+        }
+
+        .service-list li::before {
+            content: '◆';
+            position: absolute;
+            left: 0;
+            color: var(--jade-green);
+        }
+
+        .service-list li:hover {
+            color: var(--ink-black);
+            padding-left: 2.5rem;
+        }
+
+        .service-list li:last-child {
+            border-bottom: none;
+        }
+
+        /* About Me Section */
+        .about-container {
+            background: white;
+            padding: 3rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .about-container::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, var(--jade-green), transparent);
+            opacity: 0.05;
+        }
+
+        .about-logos {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4rem;
+            flex-wrap: wrap;
+            padding: 2rem 0;
+        }
+
+        .about-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, rgba(255,255,255,0.8), rgba(245,242,235,0.8));
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            min-width: 150px;
+        }
+
+        .about-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+            background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(127,176,105,0.1));
+        }
+
+        .about-icon-wrapper {
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: white;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .leetcode-logo {
+            width: 36px;
+            height: 36px;
+        }
+
+        .kaggle-logo {
+            width: 36px;
+            height: 36px;
+        }
+
+        .family-icon {
+            width: 36px;
+            height: 36px;
+        }
+
+        .about-label {
+            font-size: 1.1rem;
+            color: var(--ink-gray-700);
+            font-family: 'Noto Serif SC', serif;
+            font-weight: 500;
+            text-align: center;
+        }
+
+        .about-sublabel {
+            font-size: 0.9rem;
+            color: var(--ink-gray-500);
+            font-style: italic;
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 6rem;
+            padding: 3rem 0;
+            background: linear-gradient(180deg, white, var(--rice-paper));
+            border-top: 2px solid var(--ink-gray-100);
+            text-align: center;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-links a {
+            color: var(--ink-gray-700);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .footer-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 2px;
+            background: var(--jade-green);
+            transition: width 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--jade-green);
+        }
+
+        .footer-links a:hover::after {
+            width: 100%;
+        }
+
+        .footer-divider {
+            width: 100px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--ink-gray-300), transparent);
+            margin: 2rem auto;
+        }
+
+        .footer-copyright {
+            color: var(--ink-gray-500);
+            font-size: 0.9rem;
+        }
+
+        /* Loading Animation */
+        .loader-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--rice-paper);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            transition: opacity 0.5s ease;
+        }
+
+        .loader-circle {
+            width: 100px;
+            height: 100px;
+            border: 3px solid var(--ink-gray-100);
+            border-top: 3px solid var(--jade-green);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .loader-text {
+            position: absolute;
+            margin-top: 150px;
+            color: var(--jade-green);
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1.2rem;
+        }
+
+        /* Scroll Progress */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--jade-green), var(--water-blue));
+            z-index: 10000;
+            transition: width 0.1s ease;
+        }
+
+        /* Mobile Optimization */
         @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
             .hero-content {
                 grid-template-columns: 1fr;
                 text-align: center;
             }
-
+            
             .hero-image {
                 order: -1;
+                margin-bottom: 2rem;
             }
-
-            .nav-links {
-                display: none;
-            }
-
+            
             .section-title {
-                font-size: 2rem;
+                font-size: 2.5rem;
             }
-
-            .publication-card {
-                padding: 1.5rem;
+            
+            .timeline::before {
+                left: 20px;
             }
-
-            .skills-grid {
+            
+            .timeline-item {
+                padding-left: 60px;
+            }
+            
+            .timeline-item::before {
+                left: 14px;
+            }
+            
+            .certificates-container {
                 grid-template-columns: 1fr;
             }
+        }
+
+        /* Ink Drip Animation */
+        @keyframes inkDrip {
+            0% {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(100px);
+            }
+        }
+
+        .ink-drip {
+            position: fixed;
+            width: 4px;
+            height: 20px;
+            background: var(--ink-black);
+            border-radius: 0 0 50% 50%;
+            opacity: 0;
+            animation: inkDrip 3s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 100;
         }
     </style>
 </head>
 <body>
-    <!-- Animated Background -->
-    <div class="hero-background"></div>
-    <div class="floating-shapes">
-        <div class="shape"></div>
-        <div class="shape"></div>
-        <div class="shape"></div>
+    <!-- Loading Screen -->
+    <div class="loader-wrapper" id="loader" style="display: none;">
+        <div class="loader-circle"></div>
+        <div class="loader-text">载入中...</div>
     </div>
 
+    <!-- Scroll Progress Bar -->
+    <div class="scroll-progress" id="scrollProgress"></div>
+
+    <!-- Mountain Landscape Background -->
+    <div class="mountain-landscape"></div>
+
+    <!-- Floating Clouds -->
+    <div class="clouds">
+        <div class="cloud"></div>
+        <div class="cloud"></div>
+        <div class="cloud"></div>
+    </div>
+
+    <!-- Bamboo Leaves -->
+    <div class="bamboo-leaves" id="bambooLeaves"></div>
+
     <!-- Navigation -->
-    <nav>
+    <nav id="navbar">
         <div class="nav-container">
-            <div class="nav-logo">Hang Zhao</div>
+            <a href="#" class="nav-logo">
+                Hang Zhao
+                <span class="chinese-name">赵航</span>
+            </a>
             <ul class="nav-links">
                 <li><a href="#about">About</a></li>
                 <li><a href="#publications">Publications</a></li>
                 <li><a href="#experience">Experience</a></li>
                 <li><a href="#skills">Skills</a></li>
                 <li><a href="#awards">Awards</a></li>
+                <li><a href="#certifications">Certifications</a></li>
+                <li><a href="#service">Service</a></li>
+                <li><a href="#personal">Personal</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
         </div>
@@ -715,35 +1108,40 @@
             <div class="hero-content">
                 <div class="hero-text">
                     <h1>Hang Zhao</h1>
-                    <p class="subtitle">Research Scientist & Computer Science Ph.D.</p>
+                    <p class="subtitle">Research Scientist @ Meta</p>
                     <p class="description">
-                        Ph.D. at Stony Brook University's Computer Science Department, 
-                        specializing in Machine Learning, Deep Learning, Human-Computer Interaction, and LLMs. 
-                        Former Machine Learning Engineer intern at Meta, working on Large Language Models fine-tuning.
+                        Ph.D. in Computer Science from Stony Brook University. 
+                        Research Scientist at Meta, specializing in Machine Learning, Deep Learning, 
+                        Large Language Models, and Human-Computer Interaction. 
+                        Published researcher with multiple papers in top-tier conferences including UIST, CHI, and UbiComp.
                     </p>
                     <div class="quick-links">
                         <a href="https://scholar.google.com/citations?user=1TuuiUgAAAAJ&hl=en&oi=ao" target="_blank" class="quick-link">
-                            <span>📚</span> Google Scholar
+                            📚 Google Scholar
                         </a>
                         <a href="file/HangZhao_cv.pdf" target="_blank" class="quick-link">
-                            <span>📄</span> Resume
+                            📄 Resume
                         </a>
                         <a href="https://www.linkedin.com/in/realhangzhao/" target="_blank" class="quick-link">
-                            <span>💼</span> LinkedIn
+                            💼 LinkedIn
                         </a>
                     </div>
                 </div>
                 <div class="hero-image">
-                    <div class="hero-image-wrapper">
-                        <img src="figure/hangzhao.jpg" alt="Hang Zhao">
+                    <div class="image-wrapper">
+                        <div class="image-frame">
+                            <img src="figure/hangzhao.jpg" alt="Hang Zhao">
+                            <div class="image-seal">航</div>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- Publications Section -->
-        <section class="section scroll-reveal" id="publications">
+        <section class="section" id="publications">
             <h2 class="section-title">Publications</h2>
+            <p class="section-subtitle">发表论文 • Published Research</p>
             <div class="publication-grid">
                 <div class="publication-card">
                     <div class="publication-title">
@@ -752,9 +1150,7 @@
                     <div class="publication-authors">
                         <strong>Hang Zhao</strong>, Kaiyan Ling, IV Ramakrishnan, M.D. Guy Schwartz, Xiaojun Bi
                     </div>
-                    <div class="publication-venue">
-                        UbiComp/IMWUT 2025
-                    </div>
+                    <div class="publication-venue">UbiComp/IMWUT 2025</div>
                     <div class="publication-links">
                         <a href="https://dl.acm.org/doi/abs/10.1145/3712267" target="_blank" class="publication-link">📖 Paper</a>
                     </div>
@@ -767,24 +1163,20 @@
                     <div class="publication-authors">
                         <strong>Hang Zhao</strong>, Qile P. Chen, Yijing Barry Zhang, Gang Yang
                     </div>
-                    <div class="publication-venue">
-                        arXiv preprint arXiv:2412.08587
-                    </div>
+                    <div class="publication-venue">arXiv preprint arXiv:2412.08587</div>
                     <div class="publication-links">
                         <a href="https://doi.org/10.48550/arXiv.2412.08587" target="_blank" class="publication-link">📖 Paper</a>
                     </div>
                 </div>
 
-                 <div class="publication-card">
+                <div class="publication-card">
                     <div class="publication-title">
                         Modeling Touch Pointing and Detect Parkinson's Disease via a Mobile Game
                     </div>
                     <div class="publication-authors">
                         Kaiyan Ling, <strong>Hang Zhao</strong>, Xiangmin Fan, Xiaohui Niu, Wenchao Yin, Yue Liu, Cui Wang, Xiaojun Bi
                     </div>
-                    <div class="publication-venue">
-                        UbiComp/IMWUT 2024
-                    </div>
+                    <div class="publication-venue">UbiComp/IMWUT 2024</div>
                     <div class="publication-links">
                         <a href="https://dl.acm.org/doi/abs/10.1145/3659627" target="_blank" class="publication-link">📖 Paper</a>
                     </div>
@@ -797,9 +1189,7 @@
                     <div class="publication-authors">
                         <strong>Hang Zhao</strong>, Sophia Gu, Chun Yu, Xiaojun Bi
                     </div>
-                    <div class="publication-venue">
-                        UIST 2022
-                    </div>
+                    <div class="publication-venue">UIST 2022</div>
                     <div class="publication-links">
                         <a href="https://dl.acm.org/doi/abs/10.1145/3526113.3545708" target="_blank" class="publication-link">📖 Paper</a>
                     </div>
@@ -812,9 +1202,7 @@
                     <div class="publication-authors">
                         Zhi Li, Maozheng Zhao, Didyendu Das, <strong>Hang Zhao</strong>, Yan Ma, Wanyu Liu, Michel Beaudouin-Lafon, Fusheng Wang, Iv Ramakrishnan, Xiaojun Bi
                     </div>
-                    <div class="publication-venue">
-                        CHI 2022
-                    </div>
+                    <div class="publication-venue">CHI 2022</div>
                     <div class="publication-links">
                         <a href="https://dl.acm.org/doi/10.1145/3491102.3517472" target="_blank" class="publication-link">📖 Paper</a>
                     </div>
@@ -827,9 +1215,7 @@
                     <div class="publication-authors">
                         <strong>Hang Zhao</strong>, Michael Wang, Xiaolei Zhou, Xiangshi Ren, Xiaojun Bi
                     </div>
-                    <div class="publication-venue">
-                        UIST 2021
-                    </div>
+                    <div class="publication-venue">UIST 2021</div>
                     <div class="publication-links">
                         <a href="https://dl.acm.org/doi/pdf/10.1145/3472749.3474811" target="_blank" class="publication-link">📖 Paper</a>
                     </div>
@@ -842,9 +1228,7 @@
                     <div class="publication-authors">
                         Yu-Jung Ko, <strong>Hang Zhao</strong>, IV Ramakrishnan, Shumin Zhai, Xiaojun Bi
                     </div>
-                    <div class="publication-venue">
-                        Graphics Interface 2021
-                    </div>
+                    <div class="publication-venue">Graphics Interface 2021</div>
                     <div class="publication-links">
                         <a href="https://openreview.net/pdf?id=YXUV-SU6i8I" target="_blank" class="publication-link">📖 Paper</a>
                     </div>
@@ -858,9 +1242,7 @@
                     <div class="publication-authors">
                         Yu-Jung Ko, <strong>Hang Zhao</strong>, IV Ramakrishnan, Shumin Zhai, Xiaojun Bi
                     </div>
-                    <div class="publication-venue">
-                        China CHI 2021
-                    </div>
+                    <div class="publication-venue">China CHI 2021</div>
                     <div class="publication-links">
                         <a href="https://dl.acm.org/doi/pdf/10.1145/3490355.3490360" target="_blank" class="publication-link">📖 Paper</a>
                     </div>
@@ -874,9 +1256,7 @@
                     <div class="publication-authors">
                         Yu-Jung Ko, <strong>Hang Zhao</strong>, Yoosang Kim, IV Ramakrishnan, Shumin Zhai, Xiaojun Bi
                     </div>
-                    <div class="publication-venue">
-                        UIST 2020
-                    </div>
+                    <div class="publication-venue">UIST 2020</div>
                     <div class="publication-links">
                         <a href="https://dl.acm.org/doi/pdf/10.1145/3379337.3415871" target="_blank" class="publication-link">📖 Paper</a>
                     </div>
@@ -885,59 +1265,67 @@
         </section>
 
         <!-- Experience Section -->
-        <section class="section scroll-reveal" id="experience">
+        <section class="section" id="experience">
             <h2 class="section-title">Experience</h2>
+            <p class="section-subtitle">经历 • Career Journey</p>
             
-            <h3 style="margin: 2rem 0 1rem; color: var(--accent-purple);">Industry</h3>
-            <div class="experience-card">
-                <div class="experience-title">Research Scientist</div>
-                <div class="experience-company">Meta</div>
-                <div class="experience-details">Jan 2025 - Present | Menlo Park, California</div>
-            </div>
-            <div class="experience-card">
-                <div class="experience-title">Software Engineer, Machine Learning Intern</div>
-                <div class="experience-company">Meta</div>
-                <div class="experience-details">May 2024 - Aug 2024 | Menlo Park, California</div>
-            </div>
-
-            <h3 style="margin: 2rem 0 1rem; color: var(--accent-purple);">Teaching</h3>
-            <div class="experience-card">
-                <div class="experience-title">Teaching Assistant</div>
-                <div class="experience-company">Stony Brook University</div>
-                <div class="experience-details">
-                    CSE518 Human-Computer Interaction (Aug 2024 - Dec 2024, Aug 2022 - Dec 2022)<br>
-                    CSE307 Fundamental of Programming Language (Jan 2020 - May 2020)
+            <h3 style="margin: 2rem 0 1rem; color: var(--jade-green); font-family: 'Noto Serif SC', serif;">Industry</h3>
+            <div class="timeline">
+                <div class="timeline-item" style="animation-delay: 0.2s;">
+                    <h3 style="color: var(--ink-black);">Research Scientist</h3>
+                    <p style="color: var(--plum-red); font-weight: 600;">Meta</p>
+                    <p style="color: var(--ink-gray-500);">Jan 2025 - Present | Menlo Park, California</p>
+                </div>
+                <div class="timeline-item" style="animation-delay: 0.4s;">
+                    <h3 style="color: var(--ink-black);">Software Engineer, Machine Learning Intern</h3>
+                    <p style="color: var(--plum-red); font-weight: 600;">Meta</p>
+                    <p style="color: var(--ink-gray-500);">May 2024 - Aug 2024 | Menlo Park, California</p>
                 </div>
             </div>
 
-            <h3 style="margin: 2rem 0 1rem; color: var(--accent-purple);">Education</h3>
-            <div class="experience-card">
-                <div class="experience-title">Doctor of Philosophy in Computer Science</div>
-                <div class="experience-company">Stony Brook University</div>
-                <div class="experience-details">Jan 2021 - Dec 2025</div>
+            <h3 style="margin: 2rem 0 1rem; color: var(--jade-green); font-family: 'Noto Serif SC', serif;">Teaching</h3>
+            <div class="timeline">
+                <div class="timeline-item" style="animation-delay: 0.6s;">
+                    <h3 style="color: var(--ink-black);">Teaching Assistant</h3>
+                    <p style="color: var(--plum-red); font-weight: 600;">Stony Brook University</p>
+                    <p style="color: var(--ink-gray-500);">
+                        CSE518 Human-Computer Interaction (Aug 2024 - Dec 2024, Aug 2022 - Dec 2022)<br>
+                        CSE307 Fundamental of Programming Language (Jan 2020 - May 2020)
+                    </p>
+                </div>
             </div>
-            <div class="experience-card">
-                <div class="experience-title">Master of Science in Computer Science</div>
-                <div class="experience-company">Stony Brook University</div>
-                <div class="experience-details">Jan 2019 - Dec 2020</div>
-            </div>
-            <div class="experience-card">
-                <div class="experience-title">Master of Science in Computer Science</div>
-                <div class="experience-company">New York Institute of Technology</div>
-                <div class="experience-details">Jan 2017 - Dec 2018</div>
-            </div>
-            <div class="experience-card">
-                <div class="experience-title">Bachelor of Science</div>
-                <div class="experience-company">Zhongyuan University of Technology</div>
-                <div class="experience-details">Sep 2008 - July 2012</div>
+
+            <h3 style="margin: 2rem 0 1rem; color: var(--jade-green); font-family: 'Noto Serif SC', serif;">Education</h3>
+            <div class="timeline">
+                <div class="timeline-item" style="animation-delay: 0.8s;">
+                    <h3 style="color: var(--ink-black);">Doctor of Philosophy in Computer Science</h3>
+                    <p style="color: var(--plum-red); font-weight: 600;">Stony Brook University</p>
+                    <p style="color: var(--ink-gray-500);">Jan 2021 - Dec 2025</p>
+                </div>
+                <div class="timeline-item" style="animation-delay: 1s;">
+                    <h3 style="color: var(--ink-black);">Master of Science in Computer Science</h3>
+                    <p style="color: var(--plum-red); font-weight: 600;">Stony Brook University</p>
+                    <p style="color: var(--ink-gray-500);">Jan 2019 - Dec 2020</p>
+                </div>
+                <div class="timeline-item" style="animation-delay: 1.2s;">
+                    <h3 style="color: var(--ink-black);">Master of Science in Computer Science</h3>
+                    <p style="color: var(--plum-red); font-weight: 600;">New York Institute of Technology</p>
+                    <p style="color: var(--ink-gray-500);">Jan 2017 - Dec 2018</p>
+                </div>
+                <div class="timeline-item" style="animation-delay: 1.4s;">
+                    <h3 style="color: var(--ink-black);">Bachelor of Science</h3>
+                    <p style="color: var(--plum-red); font-weight: 600;">Zhongyuan University of Technology</p>
+                    <p style="color: var(--ink-gray-500);">Sep 2008 - July 2012</p>
+                </div>
             </div>
         </section>
 
         <!-- Skills Section -->
-        <section class="section scroll-reveal" id="skills">
+        <section class="section" id="skills">
             <h2 class="section-title">Technical Skills</h2>
-            <div class="skills-grid">
-                <div class="skill-category">
+            <p class="section-subtitle">技能 • Expertise</p>
+            <div class="skills-container">
+                <div class="skill-card">
                     <h4>Programming Languages</h4>
                     <div class="skill-tags">
                         <span class="skill-tag">Python</span>
@@ -946,9 +1334,11 @@
                         <span class="skill-tag">R</span>
                         <span class="skill-tag">MATLAB</span>
                         <span class="skill-tag">LaTeX</span>
+                        <span class="skill-tag">Prolog</span>
+                        <span class="skill-tag">SML</span>
                     </div>
                 </div>
-                <div class="skill-category">
+                <div class="skill-card">
                     <h4>Machine Learning & AI</h4>
                     <div class="skill-tags">
                         <span class="skill-tag">PyTorch</span>
@@ -957,9 +1347,11 @@
                         <span class="skill-tag">Scikit-learn</span>
                         <span class="skill-tag">CUDA</span>
                         <span class="skill-tag">OpenCV</span>
+                        <span class="skill-tag">SciPy</span>
+                        <span class="skill-tag">PyStan</span>
                     </div>
                 </div>
-                <div class="skill-category">
+                <div class="skill-card">
                     <h4>Web Development</h4>
                     <div class="skill-tags">
                         <span class="skill-tag">HTML/CSS</span>
@@ -968,26 +1360,33 @@
                         <span class="skill-tag">Node.js</span>
                         <span class="skill-tag">d3.js</span>
                         <span class="skill-tag">Flask</span>
+                        <span class="skill-tag">XML</span>
                     </div>
                 </div>
-                <div class="skill-category">
-                    <h4>Data & Databases</h4>
+                <div class="skill-card">
+                    <h4>Data & Big Data</h4>
                     <div class="skill-tags">
                         <span class="skill-tag">MySQL</span>
                         <span class="skill-tag">MongoDB</span>
+                        <span class="skill-tag">IBM DB2</span>
                         <span class="skill-tag">Hadoop</span>
                         <span class="skill-tag">Spark</span>
+                        <span class="skill-tag">MapReduce</span>
+                        <span class="skill-tag">HDFS</span>
                         <span class="skill-tag">Pandas</span>
                         <span class="skill-tag">NumPy</span>
+                        <span class="skill-tag">Matplotlib</span>
+                        <span class="skill-tag">Seaborn</span>
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- Awards Section -->
-        <section class="section scroll-reveal" id="awards">
+        <section class="section" id="awards">
             <h2 class="section-title">Awards & Achievements</h2>
-            <div class="awards-grid">
+            <p class="section-subtitle">荣誉 • Honors</p>
+            <div class="awards-container">
                 <div class="award-item">
                     <div class="award-title">🎓 Stony Brook University GAANN Fellowship Award</div>
                     <div class="award-details">2023-2024</div>
@@ -1012,9 +1411,10 @@
         </section>
 
         <!-- Certificates Section -->
-        <section class="section">
+        <section class="section" id="certifications">
             <h2 class="section-title">Certifications</h2>
-            <div class="certificates-grid">
+            <p class="section-subtitle">证书 • Credentials</p>
+            <div class="certificates-container">
                 <div class="certificate-item">
                     <a href="https://courses.edx.org/certificates/706c546da0384a129973cc7ebc53c0f9" target="_blank">
                         📜 Large Language Models: Application through Production
@@ -1069,52 +1469,154 @@
         </section>
 
         <!-- Academic Service Section -->
-        <section class="section">
+        <section class="section" id="service">
             <h2 class="section-title">Academic Service</h2>
-            <div style="background: var(--bg-card); padding: 2rem; border-radius: 16px; border: 1px solid var(--border-light);">
-                <ul style="list-style: none; padding: 0;">
-                    <li style="padding: 0.5rem 0; color: var(--text-secondary); font-size: 1.05rem;">
-                        📝 Reviewer for UIST 2024
-                    </li>
-                    <li style="padding: 0.5rem 0; color: var(--text-secondary); font-size: 1.05rem;">
-                        📝 Reviewer for CHI 2024
-                    </li>
-                    <li style="padding: 0.5rem 0; color: var(--text-secondary); font-size: 1.05rem;">
-                        📝 Reviewer for UIST 2022
-                    </li>
+            <p class="section-subtitle">学术服务 • Service</p>
+            <div class="service-container">
+                <ul class="service-list">
+                    <li>Reviewer for UIST 2024</li>
+                    <li>Reviewer for CHI 2024</li>
+                    <li>Reviewer for UIST 2022</li>
                 </ul>
             </div>
         </section>
 
         <!-- About Me Section -->
-        <section class="section scroll-reveal">
+        <section class="section" id="personal">
             <h2 class="section-title">About Me</h2>
-            <div style="background: var(--bg-card); padding: 2rem; border-radius: 16px; border: 1px solid var(--border-light);">
-                <p style="font-size: 1.1rem; color: var(--text-secondary); text-align: center;">
-                    <span style="font-size: 1.5rem;">💻</span> A Leetcoder &nbsp;&nbsp;
-                    <span style="font-size: 1.5rem;">📊</span> A Kaggler &nbsp;&nbsp;
-                    <span style="font-size: 1.5rem;">👨‍👩‍👧‍👦</span> A Husband & Two Boys' Father
-                </p>
+            <p class="section-subtitle">关于我 • Personal</p>
+            <div class="about-container">
+                <div class="about-logos">
+                    <div class="about-item">
+                        <div class="about-icon-wrapper">
+                            <!-- LeetCode Logo SVG -->
+                            <svg class="leetcode-logo" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M13.483 0a1.374 1.374 0 0 0-.961.438L7.116 6.226l-3.854 4.126a5.266 5.266 0 0 0-1.209 2.104 5.35 5.35 0 0 0-.125.513 5.527 5.527 0 0 0 .062 2.362 5.83 5.83 0 0 0 .349 1.017 5.938 5.938 0 0 0 1.271 1.818l4.277 4.193.039.038c2.248 2.165 5.852 2.133 8.063-.074l2.396-2.392c.54-.54.54-1.414.003-1.955a1.378 1.378 0 0 0-1.951-.003l-2.396 2.392a3.021 3.021 0 0 1-4.205.038l-.02-.019-4.276-4.193c-.652-.64-.972-1.469-.948-2.263a2.68 2.68 0 0 1 .066-.523 2.545 2.545 0 0 1 .619-1.164L9.13 8.114c1.058-1.134 3.204-1.27 4.43-.278l3.501 2.831c.593.48 1.461.387 1.94-.207a1.384 1.384 0 0 0-.207-1.943l-3.5-2.831c-.8-.647-1.766-1.045-2.774-1.202l2.015-2.158A1.384 1.384 0 0 0 13.483 0zm-2.866 12.815a1.38 1.38 0 0 0-1.38 1.382 1.38 1.38 0 0 0 1.38 1.382H20.79a1.38 1.38 0 0 0 1.38-1.382 1.38 1.38 0 0 0-1.38-1.382z" fill="#FFA116"/>
+                            </svg>
+                        </div>
+                        <div class="about-label">
+                            Leetcoder
+                            <div class="about-sublabel">Algorithm Enthusiast</div>
+                        </div>
+                    </div>
+                    <div class="about-item">
+                        <div class="about-icon-wrapper">
+                            <!-- Kaggle Logo SVG -->
+                            <svg class="kaggle-logo" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M18.825 23.859c-.022.092-.117.141-.281.141h-3.139c-.187 0-.351-.082-.492-.248l-5.178-6.589-1.448 1.374v5.111c0 .235-.117.352-.351.352H5.505c-.236 0-.354-.117-.354-.352V.353c0-.233.118-.353.354-.353h2.431c.234 0 .351.12.351.353v14.343l6.203-6.272c.165-.165.33-.246.495-.246h3.239c.144 0 .236.06.285.18.046.149.034.255-.036.315l-6.555 6.344 6.836 8.507c.095.104.117.208.07.358" fill="#20BEFF"/>
+                            </svg>
+                        </div>
+                        <div class="about-label">
+                            Kaggler
+                            <div class="about-sublabel">Data Science Competitor</div>
+                        </div>
+                    </div>
+                    <div class="about-item">
+                        <div class="about-icon-wrapper">
+                            <!-- Family Icon SVG - More elegant design -->
+                            <svg class="family-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <defs>
+                                    <linearGradient id="familyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" style="stop-color:#7fb069;stop-opacity:1" />
+                                        <stop offset="100%" style="stop-color:#5a8654;stop-opacity:1" />
+                                    </linearGradient>
+                                </defs>
+                                <g fill="url(#familyGrad)">
+                                    <!-- Parents -->
+                                    <circle cx="8" cy="5" r="2"/>
+                                    <path d="M8 7c-1.5 0-3 1-3 2.5V12h6V9.5C11 8 9.5 7 8 7z"/>
+                                    <circle cx="16" cy="5" r="2"/>
+                                    <path d="M16 7c-1.5 0-3 1-3 2.5V12h6V9.5C19 8 17.5 7 16 7z"/>
+                                    <!-- Children -->
+                                    <circle cx="7" cy="15" r="1.5"/>
+                                    <path d="M7 16.5c-1 0-2 .7-2 1.75V21h4v-2.75c0-1.05-1-1.75-2-1.75z"/>
+                                    <circle cx="17" cy="15" r="1.5"/>
+                                    <path d="M17 16.5c-1 0-2 .7-2 1.75V21h4v-2.75c0-1.05-1-1.75-2-1.75z"/>
+                                </g>
+                            </svg>
+                        </div>
+                        <div class="about-label">
+                            Family Man
+                            <div class="about-sublabel">Husband & Father of Two Boys</div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
     </div>
 
     <!-- Footer -->
     <footer id="contact">
-        <div class="footer-content">
-            <div class="footer-links">
-                <a href="https://www.linkedin.com/in/hangzhaosbu/" target="_blank">LinkedIn</a>
-                <a href="https://scholar.google.com/citations?user=1TuuiUgAAAAJ&hl=en&oi=ao" target="_blank">Google Scholar</a>
-                <a href="mailto:hangzhao2021@gmail.com">Email</a>
-            </div>
-            <div class="footer-divider"></div>
-            <p style="margin-bottom: 0.5rem;">📧 hangzhao2021@gmail.com</p>
-            <p class="footer-copyright">© 2021 - 2025 Hang Zhao. All rights reserved.</p>
+        <div class="footer-links">
+            <a href="https://www.linkedin.com/in/realhangzhao/" target="_blank">LinkedIn</a>
+            <a href="https://scholar.google.com/citations?user=1TuuiUgAAAAJ&hl=en&oi=ao" target="_blank">Google Scholar</a>
+            <a href="mailto:hangzhao2021@gmail.com">Email</a>
         </div>
+        <div class="footer-divider"></div>
+        <p style="margin-bottom: 0.5rem; color: var(--ink-gray-700);">📧 hangzhao2021@gmail.com</p>
+        <p class="footer-copyright">© 2021 - 2025 Hang Zhao. All rights reserved.</p>
     </footer>
 
     <script>
-        // Smooth scrolling for navigation links
+        // Immediately hide loader
+        document.addEventListener('DOMContentLoaded', function() {
+            const loader = document.getElementById('loader');
+            if (loader) {
+                loader.style.display = 'none';
+            }
+        });
+
+        // Create Bamboo Leaves
+        function createBambooLeaves() {
+            const bambooContainer = document.getElementById('bambooLeaves');
+            for (let i = 0; i < 10; i++) {
+                const leaf = document.createElement('div');
+                leaf.className = 'leaf';
+                leaf.style.left = Math.random() * 100 + '%';
+                leaf.style.animationDelay = Math.random() * 15 + 's';
+                leaf.style.animationDuration = (15 + Math.random() * 10) + 's';
+                bambooContainer.appendChild(leaf);
+            }
+        }
+        createBambooLeaves();
+
+        // Scroll Progress Bar
+        window.addEventListener('scroll', () => {
+            const scrollProgress = document.getElementById('scrollProgress');
+            const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrolled = (window.scrollY / scrollHeight) * 100;
+            scrollProgress.style.width = scrolled + '%';
+        });
+
+        // Navigation Scroll Effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Intersection Observer for Section Animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.section').forEach(section => {
+            observer.observe(section);
+        });
+
+        // Smooth Scrolling
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
@@ -1128,34 +1630,7 @@
             });
         });
 
-        // Scroll reveal animation
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('active');
-                }
-            });
-        }, observerOptions);
-
-        document.querySelectorAll('.scroll-reveal').forEach(el => {
-            observer.observe(el);
-        });
-
-        // Add parallax effect to hero image
-        window.addEventListener('scroll', () => {
-            const scrolled = window.pageYOffset;
-            const heroImage = document.querySelector('.hero-image');
-            if (heroImage) {
-                heroImage.style.transform = `translateY(${scrolled * 0.3}px)`;
-            }
-        });
-
-        // Add dynamic navigation highlight based on scroll position
+        // Dynamic Navigation Highlight
         window.addEventListener('scroll', () => {
             const sections = document.querySelectorAll('section[id]');
             const navLinks = document.querySelectorAll('.nav-links a');
@@ -1170,11 +1645,44 @@
             });
 
             navLinks.forEach(link => {
-                link.style.color = '';
+                link.classList.remove('active');
                 if (link.getAttribute('href').slice(1) === current) {
-                    link.style.color = 'var(--primary-blue)';
+                    link.style.color = 'var(--plum-red)';
+                } else {
+                    link.style.color = '';
                 }
             });
+        });
+
+        // Create Ink Drips
+        function createInkDrip() {
+            const drip = document.createElement('div');
+            drip.className = 'ink-drip';
+            drip.style.left = Math.random() * window.innerWidth + 'px';
+            drip.style.animationDelay = Math.random() * 5 + 's';
+            document.body.appendChild(drip);
+            
+            setTimeout(() => {
+                drip.remove();
+            }, 3000);
+        }
+
+        // Create ink drips occasionally
+        setInterval(createInkDrip, 8000);
+
+        // Timeline Animation on Scroll
+        const timelineItems = document.querySelectorAll('.timeline-item');
+        const timelineObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateX(0)';
+                }
+            });
+        }, { threshold: 0.5 });
+
+        timelineItems.forEach(item => {
+            timelineObserver.observe(item);
         });
     </script>
 </body>
