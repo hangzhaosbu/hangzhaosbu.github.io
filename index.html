@@ -32,6 +32,10 @@
             box-sizing: border-box;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             font-family: 'Noto Sans SC', -apple-system, sans-serif;
             background: var(--rice-paper);
@@ -49,18 +53,13 @@
             top: 0;
             left: 0;
             z-index: -3;
-            opacity: 0.15;
+            opacity: 0.12;
             background: 
                 radial-gradient(ellipse at top, transparent 30%, var(--rice-paper) 70%),
-                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 800'%3E%3Cpath d='M0,400 C200,350 300,450 500,400 C700,350 800,450 1000,400 L1200,400 L1200,800 L0,800 Z' fill='%234a4a4a' opacity='0.3'/%3E%3Cpath d='M0,500 C300,450 400,550 700,500 C900,450 1000,550 1200,500 L1200,800 L0,800 Z' fill='%236b6b6b' opacity='0.2'/%3E%3Cpath d='M0,600 C400,550 500,650 900,600 C1000,580 1100,620 1200,600 L1200,800 L0,800 Z' fill='%239a9a9a' opacity='0.1'/%3E%3C/svg%3E");
+                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 800'%3E%3Cdefs%3E%3ClinearGradient id='mist' x1='0%25' y1='0%25' x2='0%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23f5f2eb;stop-opacity:0'/%3E%3Cstop offset='100%25' style='stop-color:%23f5f2eb;stop-opacity:1'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M0,350 Q150,280 300,350 T600,320 T900,380 T1200,340 L1200,800 L0,800 Z' fill='%233a3a3a' opacity='0.4'/%3E%3Cpath d='M0,420 Q200,370 400,420 T800,400 T1200,440 L1200,800 L0,800 Z' fill='%235a5a5a' opacity='0.3'/%3E%3Cpath d='M0,520 Q300,480 600,520 T1200,500 L1200,800 L0,800 Z' fill='%237a7a7a' opacity='0.2'/%3E%3Crect x='0' y='0' width='1200' height='800' fill='url(%23mist)'/%3E%3C/svg%3E");
             background-size: cover;
             background-position: center bottom;
-            animation: mountainFloat 30s ease-in-out infinite;
-        }
-
-        @keyframes mountainFloat {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
+            will-change: transform;
         }
 
         /* Floating Clouds */
@@ -76,41 +75,57 @@
 
         .cloud {
             position: absolute;
-            background: radial-gradient(ellipse, rgba(255, 255, 255, 0.3), transparent);
+            background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.1) 40%, transparent 70%);
             border-radius: 100%;
-            opacity: 0.4;
-            animation: cloudDrift 60s infinite linear;
+            filter: blur(2px);
+            will-change: transform;
         }
 
         .cloud:nth-child(1) {
-            width: 300px;
-            height: 100px;
-            top: 20%;
-            left: -300px;
-            animation-duration: 40s;
+            width: 400px;
+            height: 120px;
+            top: 15%;
+            animation: cloudDrift1 55s infinite linear;
         }
 
         .cloud:nth-child(2) {
-            width: 400px;
-            height: 120px;
-            top: 40%;
-            left: -400px;
-            animation-duration: 50s;
-            animation-delay: 10s;
+            width: 500px;
+            height: 150px;
+            top: 35%;
+            animation: cloudDrift2 70s infinite linear;
+            animation-delay: -20s;
         }
 
         .cloud:nth-child(3) {
             width: 350px;
-            height: 90px;
-            top: 60%;
-            left: -350px;
-            animation-duration: 45s;
-            animation-delay: 20s;
+            height: 100px;
+            top: 55%;
+            animation: cloudDrift3 60s infinite linear;
+            animation-delay: -35s;
         }
 
-        @keyframes cloudDrift {
-            from { transform: translateX(0); }
-            to { transform: translateX(calc(100vw + 100%)); }
+        .cloud:nth-child(4) {
+            width: 450px;
+            height: 130px;
+            top: 25%;
+            animation: cloudDrift1 80s infinite linear;
+            animation-delay: -45s;
+            opacity: 0.3;
+        }
+
+        @keyframes cloudDrift1 {
+            from { transform: translateX(-500px); }
+            to { transform: translateX(calc(100vw + 500px)); }
+        }
+
+        @keyframes cloudDrift2 {
+            from { transform: translateX(calc(100vw + 600px)); }
+            to { transform: translateX(-600px); }
+        }
+
+        @keyframes cloudDrift3 {
+            from { transform: translateX(-400px) translateY(0); }
+            to { transform: translateX(calc(100vw + 400px)) translateY(-30px); }
         }
 
         /* Bamboo Leaves Animation */
@@ -127,57 +142,68 @@
 
         .leaf {
             position: absolute;
-            width: 30px;
-            height: 60px;
-            background: linear-gradient(135deg, var(--bamboo-green), var(--jade-green));
+            width: 25px;
+            height: 55px;
+            background: linear-gradient(135deg, var(--bamboo-green) 0%, var(--jade-green) 50%, var(--bamboo-green) 100%);
             border-radius: 0% 100% 0% 100%;
-            opacity: 0.1;
-            animation: leafFall 15s infinite linear;
+            opacity: 0;
+            will-change: transform, opacity;
+            filter: blur(0.5px);
+        }
+
+        .leaf::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            top: 50%;
+            transform: rotate(-45deg);
         }
 
         @keyframes leafFall {
             0% {
-                transform: translateY(-100px) rotate(0deg);
+                transform: translateY(-100px) rotate(0deg) translateX(0);
                 opacity: 0;
             }
-            10% {
-                opacity: 0.1;
+            5% {
+                opacity: 0.15;
             }
-            90% {
-                opacity: 0.1;
+            25% {
+                transform: translateY(25vh) rotate(90deg) translateX(30px);
+            }
+            50% {
+                transform: translateY(50vh) rotate(180deg) translateX(-20px);
+            }
+            75% {
+                transform: translateY(75vh) rotate(270deg) translateX(40px);
+            }
+            95% {
+                opacity: 0.15;
             }
             100% {
-                transform: translateY(calc(100vh + 100px)) rotate(360deg);
+                transform: translateY(calc(100vh + 100px)) rotate(360deg) translateX(0);
                 opacity: 0;
             }
         }
 
-        .leaf:nth-child(odd) {
-            animation-duration: 20s;
-            width: 25px;
-            height: 50px;
-        }
-
-        .leaf:nth-child(even) {
-            animation-duration: 18s;
-            animation-delay: 5s;
-        }
-
-        /* Navigation with Chinese Style */
+        /* Navigation */
         nav {
             position: fixed;
             top: 0;
             width: 100%;
             padding: 1.5rem 0;
-            background: linear-gradient(to bottom, var(--mist-white), transparent);
-            backdrop-filter: blur(10px);
+            background: transparent;
+            backdrop-filter: blur(0px);
             z-index: 1000;
-            transition: all 0.3s ease;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         nav.scrolled {
             background: var(--mist-white);
-            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.08);
+            padding: 1rem 0;
         }
 
         .nav-container {
@@ -192,27 +218,46 @@
         .nav-logo {
             display: flex;
             align-items: center;
-            gap: 1rem;
+            gap: 0.8rem;
             font-family: 'Noto Serif SC', serif;
-            font-size: 1.8rem;
+            font-size: 1.6rem;
             font-weight: 700;
             color: var(--ink-black);
             text-decoration: none;
+            transition: transform 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .nav-logo:hover {
+            transform: scale(1.02);
+        }
+
+        .nav-logo .name-en {
+            white-space: nowrap;
         }
 
         .chinese-name {
-            font-size: 1.2rem;
+            font-size: 1rem;
             color: var(--plum-red);
             font-weight: 500;
-            padding: 0.2rem 0.8rem;
+            padding: 0.15rem 0.6rem;
             border: 2px solid var(--plum-red);
             border-radius: 4px;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .nav-logo:hover .chinese-name {
+            background: var(--plum-red);
+            color: white;
         }
 
         .nav-links {
             display: flex;
-            gap: 3rem;
+            gap: 1.8rem;
             list-style: none;
+            align-items: center;
+            margin-left: 3rem;
         }
 
         .nav-links a {
@@ -224,23 +269,109 @@
             padding: 0.5rem 0;
         }
 
-        .nav-links a::after {
+        .nav-links a::before {
             content: '';
             position: absolute;
             bottom: 0;
-            left: 0;
+            left: 50%;
             width: 0;
             height: 2px;
             background: var(--plum-red);
-            transition: width 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateX(-50%);
         }
 
         .nav-links a:hover {
             color: var(--plum-red);
         }
 
-        .nav-links a:hover::after {
+        .nav-links a:hover::before {
             width: 100%;
+        }
+
+        /* Language Switch */
+        .lang-switch {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: white;
+            border: 2px solid var(--jade-green);
+            border-radius: 25px;
+            padding: 0.4rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-left: 1.5rem;
+        }
+
+        .lang-switch:hover {
+            box-shadow: 0 4px 15px rgba(127, 176, 105, 0.2);
+        }
+
+        .lang-btn {
+            padding: 0.4rem 0.8rem;
+            border: none;
+            background: transparent;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: var(--ink-gray-500);
+        }
+
+        .lang-btn.active {
+            background: var(--jade-green);
+            color: white;
+        }
+
+        .lang-btn:hover:not(.active) {
+            color: var(--jade-green);
+        }
+
+        /* Back to Top Button */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: var(--jade-green);
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 20px rgba(127, 176, 105, 0.4);
+            z-index: 999;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .back-to-top:hover {
+            background: var(--bamboo-green);
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(127, 176, 105, 0.5);
+        }
+
+        .back-to-top svg {
+            width: 24px;
+            height: 24px;
+            stroke: white;
+            stroke-width: 2.5;
+            transition: transform 0.3s ease;
+        }
+
+        .back-to-top:hover svg {
+            transform: translateY(-3px);
         }
 
         /* Container */
@@ -252,7 +383,7 @@
             z-index: 1;
         }
 
-        /* Hero Section with Calligraphy Style */
+        /* Hero Section */
         .hero {
             min-height: 100vh;
             display: flex;
@@ -277,16 +408,19 @@
             color: var(--ink-black);
             position: relative;
             opacity: 0;
-            animation: brushStroke 1.5s ease forwards;
+            animation: brushStroke 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
         }
 
         @keyframes brushStroke {
-            from {
+            0% {
                 opacity: 0;
-                transform: translateX(-30px);
-                filter: blur(10px);
+                transform: translateX(-50px);
+                filter: blur(15px);
             }
-            to {
+            60% {
+                filter: blur(0);
+            }
+            100% {
                 opacity: 1;
                 transform: translateX(0);
                 filter: blur(0);
@@ -299,8 +433,8 @@
             margin-bottom: 2rem;
             font-weight: 500;
             opacity: 0;
-            animation: fadeInUp 1s ease forwards;
-            animation-delay: 0.5s;
+            animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+            animation-delay: 0.4s;
         }
 
         .hero-text .description {
@@ -309,14 +443,14 @@
             color: var(--ink-gray-700);
             margin-bottom: 2rem;
             opacity: 0;
-            animation: fadeInUp 1s ease forwards;
-            animation-delay: 0.7s;
+            animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+            animation-delay: 0.6s;
         }
 
         @keyframes fadeInUp {
             from {
                 opacity: 0;
-                transform: translateY(30px);
+                transform: translateY(40px);
             }
             to {
                 opacity: 1;
@@ -328,12 +462,24 @@
         .hero-image {
             position: relative;
             opacity: 0;
-            animation: fadeIn 1.5s ease forwards;
-            animation-delay: 1s;
+            animation: imageReveal 1.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+            animation-delay: 0.8s;
         }
 
-        @keyframes fadeIn {
-            to { opacity: 1; }
+        @keyframes imageReveal {
+            0% {
+                opacity: 0;
+                transform: scale(0.8) rotate(-10deg);
+                filter: blur(20px);
+            }
+            50% {
+                filter: blur(5px);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) rotate(0deg);
+                filter: blur(0);
+            }
         }
 
         .image-wrapper {
@@ -352,46 +498,36 @@
             border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
             box-shadow: 
                 0 10px 40px rgba(0, 0, 0, 0.1),
-                inset 0 0 40px rgba(0, 0, 0, 0.05);
+                0 0 0 1px rgba(0, 0, 0, 0.02),
+                inset 0 0 40px rgba(0, 0, 0, 0.03);
             transform: rotate(-2deg);
-            transition: transform 0.5s ease;
-            animation: morphShape 15s ease-in-out infinite, imageFloat 6s ease-in-out infinite;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: morphShape 20s ease-in-out infinite, imageFloat 8s ease-in-out infinite;
+            will-change: border-radius, transform;
         }
 
         @keyframes morphShape {
-            0%, 100% {
-                border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
-            }
-            20% {
-                border-radius: 50% 50% 50% 50% / 60% 40% 60% 40%;
-            }
-            40% {
-                border-radius: 70% 30% 50% 50% / 50% 60% 40% 60%;
-            }
-            60% {
-                border-radius: 40% 60% 30% 70% / 70% 50% 50% 30%;
-            }
-            80% {
-                border-radius: 60% 40% 60% 40% / 40% 70% 30% 60%;
-            }
+            0%, 100% { border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; }
+            14% { border-radius: 50% 50% 50% 50% / 60% 40% 60% 40%; }
+            28% { border-radius: 70% 30% 50% 50% / 50% 60% 40% 60%; }
+            42% { border-radius: 40% 60% 30% 70% / 70% 50% 50% 30%; }
+            56% { border-radius: 60% 40% 60% 40% / 40% 70% 30% 60%; }
+            70% { border-radius: 35% 65% 45% 55% / 55% 35% 65% 45%; }
+            84% { border-radius: 55% 45% 65% 35% / 45% 55% 35% 65%; }
         }
 
         @keyframes imageFloat {
-            0%, 100% { 
-                transform: rotate(-2deg) translateY(0px);
-            }
-            50% { 
-                transform: rotate(-2deg) translateY(-10px);
-            }
+            0%, 100% { transform: rotate(-2deg) translateY(0px); }
+            50% { transform: rotate(-2deg) translateY(-15px); }
         }
 
         .image-frame::before {
             content: '';
             position: absolute;
-            top: -5px;
-            left: -5px;
-            right: -5px;
-            bottom: -5px;
+            top: -6px;
+            left: -6px;
+            right: -6px;
+            bottom: -6px;
             background: linear-gradient(45deg, 
                 var(--jade-green) 0%,
                 var(--water-blue) 25%,
@@ -401,52 +537,28 @@
             background-size: 400% 400%;
             border-radius: inherit;
             z-index: -1;
-            opacity: 0.5;
-            animation: borderGradient 8s ease infinite, morphShapeBorder 15s ease-in-out infinite;
-        }
-
-        @keyframes morphShapeBorder {
-            0%, 100% {
-                border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
-            }
-            20% {
-                border-radius: 50% 50% 50% 50% / 60% 40% 60% 40%;
-            }
-            40% {
-                border-radius: 70% 30% 50% 50% / 50% 60% 40% 60%;
-            }
-            60% {
-                border-radius: 40% 60% 30% 70% / 70% 50% 50% 30%;
-            }
-            80% {
-                border-radius: 60% 40% 60% 40% / 40% 70% 30% 60%;
-            }
+            opacity: 0.4;
+            animation: borderGradient 6s ease infinite, morphShape 20s ease-in-out infinite;
+            will-change: background-position, border-radius;
         }
 
         @keyframes borderGradient {
-            0% {
-                background-position: 0% 50%;
-            }
-            50% {
-                background-position: 100% 50%;
-            }
-            100% {
-                background-position: 0% 50%;
-            }
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
         }
 
-        /* Wind Effect Layer */
         .wind-effect {
             position: absolute;
-            top: -10px;
-            left: -10px;
-            right: -10px;
-            bottom: -10px;
+            top: -12px;
+            left: -12px;
+            right: -12px;
+            bottom: -12px;
             border: 2px solid var(--jade-green);
             border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
-            opacity: 0.2;
-            animation: windMorph 12s ease-in-out infinite;
+            opacity: 0.25;
+            animation: windMorph 15s ease-in-out infinite;
             z-index: -2;
+            will-change: border-radius, transform;
         }
 
         @keyframes windMorph {
@@ -454,32 +566,36 @@
                 border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
                 transform: scale(1) rotate(0deg);
             }
-            25% {
+            20% {
                 border-radius: 60% 40% 50% 50% / 40% 60% 40% 60%;
-                transform: scale(1.02) rotate(5deg);
+                transform: scale(1.03) rotate(5deg);
             }
-            50% {
+            40% {
                 border-radius: 50% 50% 30% 70% / 60% 40% 60% 40%;
-                transform: scale(1) rotate(-5deg);
+                transform: scale(0.98) rotate(-5deg);
             }
-            75% {
+            60% {
                 border-radius: 40% 60% 60% 40% / 50% 50% 50% 50%;
                 transform: scale(1.02) rotate(3deg);
+            }
+            80% {
+                border-radius: 55% 45% 45% 55% / 35% 65% 35% 65%;
+                transform: scale(1) rotate(-3deg);
             }
         }
 
         .wind-effect-2 {
             position: absolute;
-            top: -15px;
-            left: -15px;
-            right: -15px;
-            bottom: -15px;
+            top: -20px;
+            left: -20px;
+            right: -20px;
+            bottom: -20px;
             border: 1px solid var(--water-blue);
             border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
             opacity: 0.15;
-            animation: windMorph2 10s ease-in-out infinite;
-            animation-delay: -2s;
+            animation: windMorph2 12s ease-in-out infinite;
             z-index: -3;
+            will-change: border-radius, transform;
         }
 
         @keyframes windMorph2 {
@@ -489,11 +605,11 @@
             }
             33% {
                 border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
-                transform: scale(1.03) rotate(-8deg);
+                transform: scale(1.05) rotate(-8deg);
             }
             66% {
                 border-radius: 70% 30% 30% 70% / 40% 60% 40% 60%;
-                transform: scale(1) rotate(6deg);
+                transform: scale(0.97) rotate(6deg);
             }
         }
 
@@ -503,30 +619,39 @@
         }
 
         .image-frame:hover::before {
-            animation-duration: 3s;
-            opacity: 0.8;
+            animation-duration: 2s;
+            opacity: 0.7;
         }
 
         .image-frame img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            filter: sepia(10%) contrast(0.95);
+            filter: sepia(8%) contrast(0.97) saturate(1.05);
             border: 3px solid white;
             border-radius: inherit;
             position: relative;
             z-index: 1;
+            transition: filter 0.5s ease;
         }
 
-        /* Decorative Corner Elements - now following the morphing shape */
+        .image-frame:hover img {
+            filter: sepia(0%) contrast(1) saturate(1.1);
+        }
+
         .image-corner {
             position: absolute;
             width: 30px;
             height: 30px;
             border: 2px solid var(--gold-accent);
             z-index: 2;
-            animation: cornerGlow 4s ease-in-out infinite;
-            opacity: 0.6;
+            opacity: 0.5;
+            transition: all 0.4s ease;
+        }
+
+        .image-frame:hover .image-corner {
+            opacity: 1;
+            transform: scale(1.2);
         }
 
         .image-corner.top-left {
@@ -561,21 +686,10 @@
             border-radius: 0 0 30% 0;
         }
 
-        @keyframes cornerGlow {
-            0%, 100% {
-                opacity: 0.6;
-                transform: scale(1);
-            }
-            50% {
-                opacity: 1;
-                transform: scale(1.1);
-            }
-        }
-
         .image-seal {
             position: absolute;
-            bottom: 30px;
-            right: 30px;
+            bottom: 25px;
+            right: 25px;
             width: 60px;
             height: 60px;
             background: var(--plum-red);
@@ -587,50 +701,47 @@
             font-family: 'Noto Serif SC', serif;
             font-weight: 700;
             font-size: 1.2rem;
-            box-shadow: 0 2px 10px rgba(199, 62, 29, 0.3);
+            box-shadow: 
+                0 4px 15px rgba(199, 62, 29, 0.4),
+                inset 0 -2px 5px rgba(0, 0, 0, 0.2);
             transform: rotate(15deg);
-            animation: sealRotate 10s ease-in-out infinite;
+            animation: sealPulse 4s ease-in-out infinite;
             z-index: 3;
+            transition: transform 0.4s ease;
         }
 
-        @keyframes sealRotate {
-            0%, 100% {
-                transform: rotate(15deg) scale(1);
-            }
-            25% {
-                transform: rotate(10deg) scale(1.05);
-            }
-            50% {
-                transform: rotate(20deg) scale(1);
-            }
-            75% {
-                transform: rotate(12deg) scale(1.05);
-            }
+        .image-frame:hover .image-seal {
+            transform: rotate(0deg) scale(1.1);
         }
 
-        /* Quick Links with Jade Style */
+        @keyframes sealPulse {
+            0%, 100% { transform: rotate(15deg) scale(1); box-shadow: 0 4px 15px rgba(199, 62, 29, 0.4); }
+            50% { transform: rotate(15deg) scale(1.05); box-shadow: 0 6px 25px rgba(199, 62, 29, 0.5); }
+        }
+
+        /* Quick Links */
         .quick-links {
             display: flex;
             gap: 1.5rem;
             margin-top: 3rem;
             flex-wrap: wrap;
             opacity: 0;
-            animation: fadeInUp 1s ease forwards;
-            animation-delay: 0.9s;
+            animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+            animation-delay: 0.8s;
         }
 
         .quick-link {
             display: inline-flex;
             align-items: center;
             gap: 0.75rem;
-            padding: 1rem 2rem;
+            padding: 1rem 1.8rem;
             background: white;
             border: 2px solid var(--jade-green);
             border-radius: 30px;
             text-decoration: none;
             color: var(--ink-black);
             font-weight: 500;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
         }
@@ -639,31 +750,46 @@
             content: '';
             position: absolute;
             top: 0;
-            left: -100%;
+            left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, var(--jade-green), transparent);
-            opacity: 0.3;
-            transition: left 0.5s ease;
+            background: var(--jade-green);
+            transform: translateX(-100%);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: -1;
         }
 
         .quick-link:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(127, 176, 105, 0.2);
-            background: var(--jade-green);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px rgba(127, 176, 105, 0.25);
             color: white;
+            border-color: var(--jade-green);
         }
 
         .quick-link:hover::before {
-            left: 100%;
+            transform: translateX(0);
+        }
+
+        .quick-link svg {
+            width: 20px;
+            height: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .quick-link:hover svg {
+            transform: scale(1.15);
+        }
+
+        .quick-link:hover svg path {
+            fill: white;
         }
 
         /* Section Styles */
         .section {
-            margin: 6rem 0;
+            margin: 8rem 0;
             opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.8s ease;
+            transform: translateY(50px);
+            transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .section.visible {
@@ -689,10 +815,10 @@
             left: 0;
             width: 100%;
             height: 3px;
-            background: linear-gradient(90deg, var(--plum-red), transparent);
+            background: linear-gradient(90deg, var(--plum-red), var(--plum-red) 50%, transparent);
             transform: scaleX(0);
             transform-origin: left;
-            transition: transform 0.8s ease;
+            transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .section.visible .section-title::after {
@@ -718,11 +844,11 @@
         .publication-card {
             background: white;
             padding: 2.5rem;
-            border-radius: 10px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.06);
             border-left: 4px solid var(--jade-green);
             position: relative;
-            transition: all 0.3s ease;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
             overflow: hidden;
         }
 
@@ -731,22 +857,23 @@
             position: absolute;
             top: 0;
             right: 0;
-            width: 100px;
-            height: 100px;
-            background: radial-gradient(circle, var(--jade-green), transparent);
-            opacity: 0.05;
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(circle, var(--jade-green) 0%, transparent 70%);
+            opacity: 0;
             transform: translate(50px, -50px);
-            transition: all 0.5s ease;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .publication-card:hover {
-            transform: translateX(10px);
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+            transform: translateX(8px) translateY(-4px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+            border-left-width: 6px;
         }
 
         .publication-card:hover::before {
-            transform: translate(0, 0);
-            opacity: 0.1;
+            transform: translate(20px, -20px);
+            opacity: 0.08;
         }
 
         .publication-title {
@@ -776,11 +903,15 @@
         }
 
         .publication-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
             color: var(--water-blue);
             text-decoration: none;
             font-weight: 500;
             font-size: 0.9rem;
             transition: all 0.3s ease;
+            padding: 0.3rem 0;
         }
 
         .publication-link:hover {
@@ -789,23 +920,26 @@
         }
 
         .badge {
-            display: inline-block;
-            padding: 0.3rem 1rem;
-            background: linear-gradient(135deg, var(--gold-accent), var(--plum-red));
-            color: white;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            padding: 0.35rem 1rem;
+            background: linear-gradient(135deg, var(--gold-accent), #e8c547);
+            color: var(--ink-black);
             border-radius: 20px;
             font-size: 0.75rem;
             font-weight: 600;
             margin-left: 1rem;
-            animation: shimmer 2s infinite;
+            box-shadow: 0 2px 8px rgba(212, 175, 55, 0.3);
+            animation: badgeShine 3s infinite;
         }
 
-        @keyframes shimmer {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.8; }
+        @keyframes badgeShine {
+            0%, 100% { box-shadow: 0 2px 8px rgba(212, 175, 55, 0.3); }
+            50% { box-shadow: 0 4px 15px rgba(212, 175, 55, 0.5); }
         }
 
-        /* Experience Timeline */
+        /* Experience Timeline - Fixed vertical line through circles */
         .timeline {
             position: relative;
             padding: 2rem 0;
@@ -817,8 +951,10 @@
             left: 50px;
             top: 0;
             height: 100%;
-            width: 2px;
-            background: linear-gradient(180deg, var(--jade-green), var(--water-blue));
+            width: 3px;
+            background: linear-gradient(180deg, var(--jade-green), var(--water-blue), var(--jade-green));
+            border-radius: 2px;
+            transform: translateX(-50%);
         }
 
         .timeline-item {
@@ -827,30 +963,43 @@
             margin-bottom: 3rem;
             opacity: 0;
             transform: translateX(-30px);
-            animation: slideIn 0.8s ease forwards;
         }
 
-        .timeline-item::before {
-            content: '';
-            position: absolute;
-            left: 44px;
-            top: 5px;
-            width: 14px;
-            height: 14px;
-            background: white;
-            border: 3px solid var(--jade-green);
-            border-radius: 50%;
-            box-shadow: 0 0 0 4px rgba(127, 176, 105, 0.2);
+        .timeline-item.visible {
+            animation: timelineSlide 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
         }
 
-        @keyframes slideIn {
+        @keyframes timelineSlide {
             to {
                 opacity: 1;
                 transform: translateX(0);
             }
         }
 
-        /* Skills with Brush Stroke Style */
+        /* Timeline circle - centered at 50px */
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 50px;
+            top: 5px;
+            width: 18px;
+            height: 18px;
+            background: white;
+            border: 4px solid var(--jade-green);
+            border-radius: 50%;
+            box-shadow: 0 0 0 5px rgba(127, 176, 105, 0.15);
+            transition: all 0.3s ease;
+            z-index: 1;
+            transform: translateX(-50%);
+        }
+
+        .timeline-item:hover::before {
+            background: var(--jade-green);
+            box-shadow: 0 0 0 8px rgba(127, 176, 105, 0.2);
+            transform: translateX(-50%) scale(1.1);
+        }
+
+        /* Skills */
         .skills-container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -860,16 +1009,34 @@
         .skill-card {
             background: white;
             padding: 2rem;
-            border-radius: 10px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.06);
             position: relative;
-            transition: all 0.3s ease;
-            border-top: 3px solid var(--jade-green);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            border-top: 4px solid var(--jade-green);
+            overflow: hidden;
+        }
+
+        .skill-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--jade-green), var(--water-blue));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.5s ease;
         }
 
         .skill-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .skill-card:hover::before {
+            transform: scaleX(1);
         }
 
         .skill-card h4 {
@@ -886,20 +1053,22 @@
         }
 
         .skill-tag {
-            padding: 0.4rem 1rem;
+            padding: 0.5rem 1.1rem;
             background: var(--rice-paper);
             border: 1px solid var(--jade-green);
             border-radius: 20px;
             font-size: 0.85rem;
             color: var(--ink-gray-700);
             font-family: 'JetBrains Mono', monospace;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: default;
         }
 
         .skill-tag:hover {
             background: var(--jade-green);
             color: white;
-            transform: translateY(-2px);
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 5px 15px rgba(127, 176, 105, 0.25);
         }
 
         /* Awards Section */
@@ -909,17 +1078,37 @@
         }
 
         .award-item {
-            background: linear-gradient(135deg, rgba(212, 175, 55, 0.05), rgba(127, 176, 105, 0.05));
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.03), rgba(127, 176, 105, 0.03));
             padding: 2rem;
-            border-radius: 10px;
+            border-radius: 12px;
             border-left: 4px solid var(--gold-accent);
             position: relative;
-            transition: all 0.3s ease;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+        }
+
+        .award-item::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            right: 20px;
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle, var(--gold-accent) 0%, transparent 70%);
+            opacity: 0;
+            transform: translateY(-50%) scale(0.5);
+            transition: all 0.5s ease;
         }
 
         .award-item:hover {
             transform: translateX(10px);
-            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.15);
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.12);
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.06), rgba(127, 176, 105, 0.06));
+        }
+
+        .award-item:hover::before {
+            opacity: 0.15;
+            transform: translateY(-50%) scale(1);
         }
 
         .award-title {
@@ -936,36 +1125,40 @@
         /* Certificates */
         .certificates-container {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
             gap: 1.5rem;
         }
 
         .certificate-item {
             background: white;
             padding: 1.5rem;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-            transition: all 0.3s ease;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.06);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
         }
 
         .certificate-item::before {
-            content: '证';
+            content: '';
             position: absolute;
-            right: 15px;
-            top: 15px;
-            font-family: 'Noto Serif SC', serif;
-            font-size: 2rem;
-            color: var(--plum-red);
-            opacity: 0.1;
-            font-weight: 700;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--water-blue), var(--jade-green));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
         }
 
         .certificate-item:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
-            background: linear-gradient(135deg, white, var(--rice-paper));
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .certificate-item:hover::before {
+            transform: scaleX(1);
         }
 
         .certificate-item a {
@@ -975,18 +1168,25 @@
             display: flex;
             align-items: center;
             gap: 0.75rem;
+            transition: color 0.3s ease;
         }
 
-        .certificate-item a:hover {
+        .certificate-item:hover a {
             color: var(--jade-green);
+        }
+
+        .cert-logo {
+            flex-shrink: 0;
+            width: 28px;
+            height: 28px;
         }
 
         /* Academic Service */
         .service-container {
             background: white;
             padding: 2.5rem;
-            border-radius: 10px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.06);
         }
 
         .service-list {
@@ -995,11 +1195,11 @@
         }
 
         .service-list li {
-            padding: 1rem 0;
+            padding: 1.2rem 0;
             border-bottom: 1px solid var(--ink-gray-100);
             color: var(--ink-gray-700);
             font-size: 1.1rem;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             padding-left: 2rem;
             position: relative;
         }
@@ -1009,11 +1209,17 @@
             position: absolute;
             left: 0;
             color: var(--jade-green);
+            transition: transform 0.3s ease;
         }
 
         .service-list li:hover {
             color: var(--ink-black);
             padding-left: 2.5rem;
+            background: linear-gradient(90deg, rgba(127, 176, 105, 0.03), transparent);
+        }
+
+        .service-list li:hover::before {
+            transform: scale(1.3);
         }
 
         .service-list li:last-child {
@@ -1024,8 +1230,8 @@
         .about-container {
             background: white;
             padding: 3rem;
-            border-radius: 10px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.06);
             text-align: center;
             position: relative;
             overflow: hidden;
@@ -1034,12 +1240,12 @@
         .about-container::before {
             content: '';
             position: absolute;
-            top: -50px;
-            right: -50px;
-            width: 200px;
-            height: 200px;
-            background: radial-gradient(circle, var(--jade-green), transparent);
-            opacity: 0.05;
+            top: -100px;
+            right: -100px;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, var(--jade-green) 0%, transparent 70%);
+            opacity: 0.03;
         }
 
         .about-logos {
@@ -1056,44 +1262,39 @@
             flex-direction: column;
             align-items: center;
             gap: 1rem;
-            padding: 1.5rem;
-            background: linear-gradient(135deg, rgba(255,255,255,0.8), rgba(245,242,235,0.8));
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-            transition: all 0.3s ease;
-            min-width: 150px;
+            padding: 1.5rem 2rem;
+            background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(245,242,235,0.9));
+            border-radius: 16px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            min-width: 160px;
         }
 
         .about-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.12);
-            background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(127,176,105,0.1));
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
         }
 
         .about-icon-wrapper {
-            width: 60px;
-            height: 60px;
+            width: 70px;
+            height: 70px;
             display: flex;
             align-items: center;
             justify-content: center;
             border-radius: 50%;
             background: white;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            transition: all 0.4s ease;
         }
 
-        .leetcode-logo {
-            width: 36px;
-            height: 36px;
+        .about-item:hover .about-icon-wrapper {
+            transform: scale(1.1);
+            box-shadow: 0 6px 25px rgba(0,0,0,0.12);
         }
 
-        .kaggle-logo {
-            width: 36px;
-            height: 36px;
-        }
-
-        .family-icon {
-            width: 36px;
-            height: 36px;
+        .about-icon-wrapper svg {
+            width: 38px;
+            height: 38px;
         }
 
         .about-label {
@@ -1105,7 +1306,7 @@
         }
 
         .about-sublabel {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             color: var(--ink-gray-500);
             font-style: italic;
         }
@@ -1124,9 +1325,13 @@
             justify-content: center;
             gap: 3rem;
             margin-bottom: 2rem;
+            flex-wrap: wrap;
         }
 
         .footer-links a {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
             color: var(--ink-gray-700);
             text-decoration: none;
             font-weight: 500;
@@ -1148,10 +1353,16 @@
 
         .footer-links a:hover {
             color: var(--jade-green);
+            transform: translateY(-2px);
         }
 
         .footer-links a:hover::after {
             width: 100%;
+        }
+
+        .footer-links svg {
+            width: 18px;
+            height: 18px;
         }
 
         .footer-divider {
@@ -1166,57 +1377,82 @@
             font-size: 0.9rem;
         }
 
-        /* Loading Animation */
-        .loader-wrapper {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--rice-paper);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 10000;
-            transition: opacity 0.5s ease;
-        }
-
-        .loader-circle {
-            width: 100px;
-            height: 100px;
-            border: 3px solid var(--ink-gray-100);
-            border-top: 3px solid var(--jade-green);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        .loader-text {
-            position: absolute;
-            margin-top: 150px;
-            color: var(--jade-green);
-            font-family: 'Noto Serif SC', serif;
-            font-size: 1.2rem;
-        }
-
         /* Scroll Progress */
         .scroll-progress {
             position: fixed;
             top: 0;
             left: 0;
             height: 3px;
-            background: linear-gradient(90deg, var(--jade-green), var(--water-blue));
-            z-index: 10000;
-            transition: width 0.1s ease;
+            background: linear-gradient(90deg, var(--jade-green), var(--water-blue), var(--plum-red));
+            z-index: 10001;
+            transition: width 0.05s linear;
+            box-shadow: 0 0 10px var(--jade-green);
+        }
+
+        /* Ink Drip Animation */
+        .ink-drip {
+            position: fixed;
+            width: 3px;
+            background: var(--ink-black);
+            border-radius: 0 0 50% 50%;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 100;
+            will-change: transform, opacity, height;
+        }
+
+        @keyframes inkDrip {
+            0% {
+                opacity: 0;
+                height: 5px;
+                transform: translateY(-20px);
+            }
+            10% {
+                opacity: 0.6;
+                height: 25px;
+            }
+            70% {
+                opacity: 0.4;
+                height: 15px;
+            }
+            100% {
+                opacity: 0;
+                height: 5px;
+                transform: translateY(120px);
+            }
+        }
+
+        /* Mobile menu button */
+        .mobile-menu-btn {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            padding: 10px;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .mobile-menu-btn span {
+            width: 25px;
+            height: 2px;
+            background: var(--ink-black);
+            transition: all 0.3s ease;
         }
 
         /* Mobile Optimization */
-        @media (max-width: 768px) {
+        @media (max-width: 900px) {
             .nav-links {
                 display: none;
+            }
+            
+            .mobile-menu-btn {
+                display: flex;
+            }
+
+            .lang-switch {
+                margin-left: 0;
+                margin-right: 1rem;
             }
             
             .hero-content {
@@ -1229,12 +1465,22 @@
                 margin-bottom: 2rem;
             }
             
+            .image-wrapper {
+                width: 280px;
+                height: 280px;
+            }
+            
+            .quick-links {
+                justify-content: center;
+            }
+            
             .section-title {
-                font-size: 2.5rem;
+                font-size: 2.2rem;
             }
             
             .timeline::before {
                 left: 20px;
+                transform: translateX(-50%);
             }
             
             .timeline-item {
@@ -1242,49 +1488,107 @@
             }
             
             .timeline-item::before {
-                left: 14px;
+                left: 20px;
+                transform: translateX(-50%);
             }
             
             .certificates-container {
                 grid-template-columns: 1fr;
             }
+            
+            .about-logos {
+                gap: 2rem;
+            }
+            
+            .footer-links {
+                gap: 1.5rem;
+            }
+
+            .back-to-top {
+                bottom: 20px;
+                right: 20px;
+                width: 45px;
+                height: 45px;
+            }
         }
 
-        /* Ink Drip Animation */
-        @keyframes inkDrip {
-            0% {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            50% {
-                opacity: 1;
-            }
-            100% {
-                opacity: 0;
-                transform: translateY(100px);
-            }
-        }
-
-        .ink-drip {
-            position: fixed;
-            width: 4px;
-            height: 20px;
-            background: var(--ink-black);
-            border-radius: 0 0 50% 50%;
+        /* Smooth reveal for cards */
+        .publication-card,
+        .skill-card,
+        .award-item,
+        .certificate-item {
             opacity: 0;
-            animation: inkDrip 3s ease-in-out infinite;
-            pointer-events: none;
-            z-index: 100;
+            transform: translateY(30px);
+        }
+
+        .section.visible .publication-card,
+        .section.visible .skill-card,
+        .section.visible .award-item,
+        .section.visible .certificate-item {
+            animation: cardReveal 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        .section.visible .publication-card:nth-child(1) { animation-delay: 0.1s; }
+        .section.visible .publication-card:nth-child(2) { animation-delay: 0.15s; }
+        .section.visible .publication-card:nth-child(3) { animation-delay: 0.2s; }
+        .section.visible .publication-card:nth-child(4) { animation-delay: 0.25s; }
+        .section.visible .publication-card:nth-child(5) { animation-delay: 0.3s; }
+        .section.visible .publication-card:nth-child(6) { animation-delay: 0.35s; }
+        .section.visible .publication-card:nth-child(7) { animation-delay: 0.4s; }
+        .section.visible .publication-card:nth-child(8) { animation-delay: 0.45s; }
+        .section.visible .publication-card:nth-child(9) { animation-delay: 0.5s; }
+
+        .section.visible .skill-card:nth-child(1) { animation-delay: 0.1s; }
+        .section.visible .skill-card:nth-child(2) { animation-delay: 0.15s; }
+        .section.visible .skill-card:nth-child(3) { animation-delay: 0.2s; }
+        .section.visible .skill-card:nth-child(4) { animation-delay: 0.25s; }
+
+        .section.visible .award-item:nth-child(1) { animation-delay: 0.1s; }
+        .section.visible .award-item:nth-child(2) { animation-delay: 0.15s; }
+        .section.visible .award-item:nth-child(3) { animation-delay: 0.2s; }
+        .section.visible .award-item:nth-child(4) { animation-delay: 0.25s; }
+        .section.visible .award-item:nth-child(5) { animation-delay: 0.3s; }
+
+        .section.visible .certificate-item:nth-child(1) { animation-delay: 0.05s; }
+        .section.visible .certificate-item:nth-child(2) { animation-delay: 0.1s; }
+        .section.visible .certificate-item:nth-child(3) { animation-delay: 0.15s; }
+        .section.visible .certificate-item:nth-child(4) { animation-delay: 0.2s; }
+        .section.visible .certificate-item:nth-child(5) { animation-delay: 0.25s; }
+        .section.visible .certificate-item:nth-child(6) { animation-delay: 0.3s; }
+        .section.visible .certificate-item:nth-child(7) { animation-delay: 0.35s; }
+        .section.visible .certificate-item:nth-child(8) { animation-delay: 0.4s; }
+        .section.visible .certificate-item:nth-child(9) { animation-delay: 0.45s; }
+        .section.visible .certificate-item:nth-child(10) { animation-delay: 0.5s; }
+
+        @keyframes cardReveal {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Section heading style */
+        .section-heading {
+            margin: 2.5rem 0 1.5rem;
+            color: var(--jade-green);
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1.3rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .section-heading::before {
+            content: '';
+            width: 4px;
+            height: 1.3rem;
+            background: var(--jade-green);
+            border-radius: 2px;
         }
     </style>
 </head>
 <body>
-    <!-- Loading Screen -->
-    <div class="loader-wrapper" id="loader" style="display: none;">
-        <div class="loader-circle"></div>
-        <div class="loader-text">载入中...</div>
-    </div>
-
     <!-- Scroll Progress Bar -->
     <div class="scroll-progress" id="scrollProgress"></div>
 
@@ -1296,29 +1600,46 @@
         <div class="cloud"></div>
         <div class="cloud"></div>
         <div class="cloud"></div>
+        <div class="cloud"></div>
     </div>
 
     <!-- Bamboo Leaves -->
     <div class="bamboo-leaves" id="bambooLeaves"></div>
 
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="backToTop" aria-label="Back to top">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 19V5M5 12l7-7 7 7" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+    </button>
+
     <!-- Navigation -->
     <nav id="navbar">
         <div class="nav-container">
             <a href="#" class="nav-logo">
-                Hang Zhao
+                <span class="name-en" data-en="Hang Zhao" data-zh="赵航">Hang Zhao</span>
                 <span class="chinese-name">赵航</span>
             </a>
             <ul class="nav-links">
-                <li><a href="#about">About</a></li>
-                <li><a href="#publications">Publications</a></li>
-                <li><a href="#experience">Experience</a></li>
-                <li><a href="#skills">Skills</a></li>
-                <li><a href="#awards">Awards</a></li>
-                <li><a href="#certifications">Certifications</a></li>
-                <li><a href="#service">Service</a></li>
-                <li><a href="#personal">Personal</a></li>
-                <li><a href="#contact">Contact</a></li>
+                <li><a href="#about" data-en="About" data-zh="关于">About</a></li>
+                <li><a href="#publications" data-en="Publications" data-zh="论文">Publications</a></li>
+                <li><a href="#experience" data-en="Experience" data-zh="经历">Experience</a></li>
+                <li><a href="#skills" data-en="Skills" data-zh="技能">Skills</a></li>
+                <li><a href="#awards" data-en="Awards" data-zh="荣誉">Awards</a></li>
+                <li><a href="#certifications" data-en="Certifications" data-zh="证书">Certifications</a></li>
+                <li><a href="#service" data-en="Service" data-zh="服务">Service</a></li>
+                <li><a href="#personal" data-en="Personal" data-zh="个人">Personal</a></li>
+                <li><a href="#contact" data-en="Contact" data-zh="联系">Contact</a></li>
             </ul>
+            <div class="lang-switch">
+                <button class="lang-btn active" data-lang="en">EN</button>
+                <button class="lang-btn" data-lang="zh">中文</button>
+            </div>
+            <button class="mobile-menu-btn" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
         </div>
     </nav>
 
@@ -1328,9 +1649,9 @@
         <section class="hero" id="about">
             <div class="hero-content">
                 <div class="hero-text">
-                    <h1>Hang Zhao</h1>
-                    <p class="subtitle">Research Scientist @ Meta</p>
-                    <p class="description">
+                    <h1 data-en="Hang Zhao" data-zh="赵航">Hang Zhao</h1>
+                    <p class="subtitle" data-en="Research Scientist @ Meta" data-zh="Meta 研究科学家">Research Scientist @ Meta</p>
+                    <p class="description" data-en="Ph.D. in Computer Science from Stony Brook University. Research Scientist at Meta, specializing in Machine Learning, Deep Learning, Large Language Models, and Human-Computer Interaction. Published researcher with multiple papers in top-tier conferences including UIST, CHI, and UbiComp." data-zh="石溪大学计算机科学博士。Meta研究科学家，专注于机器学习、深度学习、大型语言模型和人机交互。在UIST、CHI和UbiComp等顶级会议上发表多篇论文。">
                         Ph.D. in Computer Science from Stony Brook University. 
                         Research Scientist at Meta, specializing in Machine Learning, Deep Learning, 
                         Large Language Models, and Human-Computer Interaction. 
@@ -1338,13 +1659,28 @@
                     </p>
                     <div class="quick-links">
                         <a href="https://scholar.google.com/citations?user=1TuuiUgAAAAJ&hl=en&oi=ao" target="_blank" class="quick-link">
-                            📚 Google Scholar
+                            <!-- Google Scholar Logo -->
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 24a7 7 0 1 1 0-14 7 7 0 0 1 0 14zm0-24L0 9.5l4.838 3.94A8 8 0 0 1 12 9a8 8 0 0 1 7.162 4.44L24 9.5z" fill="#4285F4"/>
+                            </svg>
+                            <span data-en="Google Scholar" data-zh="谷歌学术">Google Scholar</span>
                         </a>
                         <a href="file/HangZhao_cv.pdf" target="_blank" class="quick-link">
-                            📄 Resume
+                            <!-- Document Icon -->
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                                <polyline points="14,2 14,8 20,8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                                <line x1="16" y1="13" x2="8" y2="13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                <line x1="16" y1="17" x2="8" y2="17" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                            <span data-en="Resume" data-zh="简历">Resume</span>
                         </a>
                         <a href="https://www.linkedin.com/in/realhangzhao/" target="_blank" class="quick-link">
-                            💼 LinkedIn
+                            <!-- LinkedIn Logo -->
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" fill="#0A66C2"/>
+                            </svg>
+                            LinkedIn
                         </a>
                     </div>
                 </div>
@@ -1367,8 +1703,8 @@
 
         <!-- Publications Section -->
         <section class="section" id="publications">
-            <h2 class="section-title">Publications</h2>
-            <p class="section-subtitle">发表论文 • Published Research</p>
+            <h2 class="section-title" data-en="Publications" data-zh="发表论文">Publications</h2>
+            <p class="section-subtitle" data-en="发表论文 • Published Research" data-zh="Published Research • 学术成果">发表论文 • Published Research</p>
             <div class="publication-grid">
                 <div class="publication-card">
                     <div class="publication-title">
@@ -1379,7 +1715,13 @@
                     </div>
                     <div class="publication-venue">UbiComp/IMWUT 2025</div>
                     <div class="publication-links">
-                        <a href="https://dl.acm.org/doi/abs/10.1145/3712267" target="_blank" class="publication-link">📖 Paper</a>
+                        <a href="https://dl.acm.org/doi/abs/10.1145/3712267" target="_blank" class="publication-link">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                <polyline points="14,2 14,8 20,8"/>
+                            </svg>
+                            <span data-en="Paper" data-zh="论文">Paper</span>
+                        </a>
                     </div>
                 </div>
 
@@ -1392,7 +1734,13 @@
                     </div>
                     <div class="publication-venue">arXiv preprint arXiv:2412.08587</div>
                     <div class="publication-links">
-                        <a href="https://doi.org/10.48550/arXiv.2412.08587" target="_blank" class="publication-link">📖 Paper</a>
+                        <a href="https://doi.org/10.48550/arXiv.2412.08587" target="_blank" class="publication-link">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                <polyline points="14,2 14,8 20,8"/>
+                            </svg>
+                            <span data-en="Paper" data-zh="论文">Paper</span>
+                        </a>
                     </div>
                 </div>
 
@@ -1405,7 +1753,13 @@
                     </div>
                     <div class="publication-venue">UbiComp/IMWUT 2024</div>
                     <div class="publication-links">
-                        <a href="https://dl.acm.org/doi/abs/10.1145/3659627" target="_blank" class="publication-link">📖 Paper</a>
+                        <a href="https://dl.acm.org/doi/abs/10.1145/3659627" target="_blank" class="publication-link">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                <polyline points="14,2 14,8 20,8"/>
+                            </svg>
+                            <span data-en="Paper" data-zh="论文">Paper</span>
+                        </a>
                     </div>
                 </div>
 
@@ -1418,7 +1772,13 @@
                     </div>
                     <div class="publication-venue">UIST 2022</div>
                     <div class="publication-links">
-                        <a href="https://dl.acm.org/doi/abs/10.1145/3526113.3545708" target="_blank" class="publication-link">📖 Paper</a>
+                        <a href="https://dl.acm.org/doi/abs/10.1145/3526113.3545708" target="_blank" class="publication-link">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                <polyline points="14,2 14,8 20,8"/>
+                            </svg>
+                            <span data-en="Paper" data-zh="论文">Paper</span>
+                        </a>
                     </div>
                 </div>
 
@@ -1431,7 +1791,13 @@
                     </div>
                     <div class="publication-venue">CHI 2022</div>
                     <div class="publication-links">
-                        <a href="https://dl.acm.org/doi/10.1145/3491102.3517472" target="_blank" class="publication-link">📖 Paper</a>
+                        <a href="https://dl.acm.org/doi/10.1145/3491102.3517472" target="_blank" class="publication-link">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                <polyline points="14,2 14,8 20,8"/>
+                            </svg>
+                            <span data-en="Paper" data-zh="论文">Paper</span>
+                        </a>
                     </div>
                 </div>
 
@@ -1444,7 +1810,13 @@
                     </div>
                     <div class="publication-venue">UIST 2021</div>
                     <div class="publication-links">
-                        <a href="https://dl.acm.org/doi/pdf/10.1145/3472749.3474811" target="_blank" class="publication-link">📖 Paper</a>
+                        <a href="https://dl.acm.org/doi/pdf/10.1145/3472749.3474811" target="_blank" class="publication-link">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                <polyline points="14,2 14,8 20,8"/>
+                            </svg>
+                            <span data-en="Paper" data-zh="论文">Paper</span>
+                        </a>
                     </div>
                 </div>
 
@@ -1457,35 +1829,53 @@
                     </div>
                     <div class="publication-venue">Graphics Interface 2021</div>
                     <div class="publication-links">
-                        <a href="https://openreview.net/pdf?id=YXUV-SU6i8I" target="_blank" class="publication-link">📖 Paper</a>
+                        <a href="https://openreview.net/pdf?id=YXUV-SU6i8I" target="_blank" class="publication-link">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                <polyline points="14,2 14,8 20,8"/>
+                            </svg>
+                            <span data-en="Paper" data-zh="论文">Paper</span>
+                        </a>
                     </div>
                 </div>
 
                 <div class="publication-card">
                     <div class="publication-title">
-                        Issues Related to Using Finger-Fitts law to Model One-Dimensional Touch Pointing Tasks
-                        <span class="badge">🏆 Best Paper Honorable Mention</span>
+                        <span data-en="Issues Related to Using Finger-Fitts law to Model One-Dimensional Touch Pointing Tasks" data-zh="使用Finger-Fitts定律建模一维触摸指向任务的相关问题">Issues Related to Using Finger-Fitts law to Model One-Dimensional Touch Pointing Tasks</span>
+                        <span class="badge" data-en="🏆 Best Paper Honorable Mention" data-zh="🏆 最佳论文荣誉提名">🏆 Best Paper Honorable Mention</span>
                     </div>
                     <div class="publication-authors">
                         Yu-Jung Ko, <strong>Hang Zhao</strong>, IV Ramakrishnan, Shumin Zhai, Xiaojun Bi
                     </div>
                     <div class="publication-venue">China CHI 2021</div>
                     <div class="publication-links">
-                        <a href="https://dl.acm.org/doi/pdf/10.1145/3490355.3490360" target="_blank" class="publication-link">📖 Paper</a>
+                        <a href="https://dl.acm.org/doi/pdf/10.1145/3490355.3490360" target="_blank" class="publication-link">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                <polyline points="14,2 14,8 20,8"/>
+                            </svg>
+                            <span data-en="Paper" data-zh="论文">Paper</span>
+                        </a>
                     </div>
                 </div>
 
                 <div class="publication-card">
                     <div class="publication-title">
-                        Modeling Two Dimensional Touch Pointing
-                        <span class="badge">🏆 Best Paper Honorable Mention</span>
+                        <span data-en="Modeling Two Dimensional Touch Pointing" data-zh="二维触摸指向建模">Modeling Two Dimensional Touch Pointing</span>
+                        <span class="badge" data-en="🏆 Best Paper Honorable Mention" data-zh="🏆 最佳论文荣誉提名">🏆 Best Paper Honorable Mention</span>
                     </div>
                     <div class="publication-authors">
                         Yu-Jung Ko, <strong>Hang Zhao</strong>, Yoosang Kim, IV Ramakrishnan, Shumin Zhai, Xiaojun Bi
                     </div>
                     <div class="publication-venue">UIST 2020</div>
                     <div class="publication-links">
-                        <a href="https://dl.acm.org/doi/pdf/10.1145/3379337.3415871" target="_blank" class="publication-link">📖 Paper</a>
+                        <a href="https://dl.acm.org/doi/pdf/10.1145/3379337.3415871" target="_blank" class="publication-link">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                <polyline points="14,2 14,8 20,8"/>
+                            </svg>
+                            <span data-en="Paper" data-zh="论文">Paper</span>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -1493,67 +1883,67 @@
 
         <!-- Experience Section -->
         <section class="section" id="experience">
-            <h2 class="section-title">Experience</h2>
-            <p class="section-subtitle">经历 • Career Journey</p>
+            <h2 class="section-title" data-en="Experience" data-zh="经历">Experience</h2>
+            <p class="section-subtitle" data-en="经历 • Career Journey" data-zh="Career Journey • 职业旅程">经历 • Career Journey</p>
             
-            <h3 style="margin: 2rem 0 1rem; color: var(--jade-green); font-family: 'Noto Serif SC', serif;">Industry</h3>
+            <h3 class="section-heading" data-en="Industry" data-zh="工作经历">Industry</h3>
             <div class="timeline">
-                <div class="timeline-item" style="animation-delay: 0.2s;">
-                    <h3 style="color: var(--ink-black);">Research Scientist</h3>
+                <div class="timeline-item">
+                    <h3 style="color: var(--ink-black); font-size: 1.2rem; margin-bottom: 0.5rem;" data-en="Research Scientist" data-zh="研究科学家">Research Scientist</h3>
                     <p style="color: var(--plum-red); font-weight: 600;">Meta</p>
-                    <p style="color: var(--ink-gray-500);">Jan 2025 - Present | Menlo Park, California</p>
+                    <p style="color: var(--ink-gray-500);" data-en="Jan 2025 - Present | Menlo Park, California" data-zh="2025年1月 - 至今 | 加利福尼亚州门洛帕克">Jan 2025 - Present | Menlo Park, California</p>
                 </div>
-                <div class="timeline-item" style="animation-delay: 0.4s;">
-                    <h3 style="color: var(--ink-black);">Software Engineer, Machine Learning Intern</h3>
+                <div class="timeline-item">
+                    <h3 style="color: var(--ink-black); font-size: 1.2rem; margin-bottom: 0.5rem;" data-en="Software Engineer, Machine Learning Intern" data-zh="软件工程师，机器学习实习生">Software Engineer, Machine Learning Intern</h3>
                     <p style="color: var(--plum-red); font-weight: 600;">Meta</p>
-                    <p style="color: var(--ink-gray-500);">May 2024 - Aug 2024 | Menlo Park, California</p>
+                    <p style="color: var(--ink-gray-500);" data-en="May 2024 - Aug 2024 | Menlo Park, California" data-zh="2024年5月 - 2024年8月 | 加利福尼亚州门洛帕克">May 2024 - Aug 2024 | Menlo Park, California</p>
                 </div>
             </div>
 
-            <h3 style="margin: 2rem 0 1rem; color: var(--jade-green); font-family: 'Noto Serif SC', serif;">Teaching</h3>
+            <h3 class="section-heading" data-en="Teaching" data-zh="教学经历">Teaching</h3>
             <div class="timeline">
-                <div class="timeline-item" style="animation-delay: 0.6s;">
-                    <h3 style="color: var(--ink-black);">Teaching Assistant</h3>
-                    <p style="color: var(--plum-red); font-weight: 600;">Stony Brook University</p>
-                    <p style="color: var(--ink-gray-500);">
+                <div class="timeline-item">
+                    <h3 style="color: var(--ink-black); font-size: 1.2rem; margin-bottom: 0.5rem;" data-en="Teaching Assistant" data-zh="助教">Teaching Assistant</h3>
+                    <p style="color: var(--plum-red); font-weight: 600;" data-en="Stony Brook University" data-zh="石溪大学">Stony Brook University</p>
+                    <p style="color: var(--ink-gray-500);" data-en="CSE518 Human-Computer Interaction (Aug 2024 - Dec 2024, Aug 2022 - Dec 2022)<br>CSE307 Fundamental of Programming Language (Jan 2020 - May 2020)" data-zh="CSE518 人机交互 (2024年8月 - 2024年12月, 2022年8月 - 2022年12月)<br>CSE307 编程语言基础 (2020年1月 - 2020年5月)">
                         CSE518 Human-Computer Interaction (Aug 2024 - Dec 2024, Aug 2022 - Dec 2022)<br>
                         CSE307 Fundamental of Programming Language (Jan 2020 - May 2020)
                     </p>
                 </div>
             </div>
 
-            <h3 style="margin: 2rem 0 1rem; color: var(--jade-green); font-family: 'Noto Serif SC', serif;">Education</h3>
+            <h3 class="section-heading" data-en="Education" data-zh="教育背景">Education</h3>
             <div class="timeline">
-                <div class="timeline-item" style="animation-delay: 0.8s;">
-                    <h3 style="color: var(--ink-black);">Doctor of Philosophy in Computer Science</h3>
-                    <p style="color: var(--plum-red); font-weight: 600;">Stony Brook University</p>
-                    <p style="color: var(--ink-gray-500);">Jan 2021 - Dec 2025</p>
+                <div class="timeline-item">
+                    <h3 style="color: var(--ink-black); font-size: 1.2rem; margin-bottom: 0.5rem;" data-en="Doctor of Philosophy in Computer Science" data-zh="计算机科学博士">Doctor of Philosophy in Computer Science</h3>
+                    <p style="color: var(--plum-red); font-weight: 600;" data-en="Stony Brook University" data-zh="石溪大学">Stony Brook University</p>
+                    <p style="color: var(--ink-gray-500);" data-en="Jan 2021 - Dec 2025" data-zh="2021年1月 - 2025年12月">Jan 2021 - Dec 2025</p>
                 </div>
-                <div class="timeline-item" style="animation-delay: 1s;">
-                    <h3 style="color: var(--ink-black);">Master of Science in Computer Science</h3>
-                    <p style="color: var(--plum-red); font-weight: 600;">Stony Brook University</p>
-                    <p style="color: var(--ink-gray-500);">Jan 2019 - Dec 2020</p>
+                <div class="timeline-item">
+                    <h3 style="color: var(--ink-black); font-size: 1.2rem; margin-bottom: 0.5rem;" data-en="Master of Science in Computer Science" data-zh="计算机科学硕士">Master of Science in Computer Science</h3>
+                    <p style="color: var(--plum-red); font-weight: 600;" data-en="Stony Brook University" data-zh="石溪大学">Stony Brook University</p>
+                    <p style="color: var(--ink-gray-500);" data-en="Jan 2019 - Dec 2020" data-zh="2019年1月 - 2020年12月">Jan 2019 - Dec 2020</p>
                 </div>
-                <div class="timeline-item" style="animation-delay: 1.2s;">
-                    <h3 style="color: var(--ink-black);">Master of Science in Computer Science</h3>
-                    <p style="color: var(--plum-red); font-weight: 600;">New York Institute of Technology</p>
-                    <p style="color: var(--ink-gray-500);">Jan 2017 - Dec 2018</p>
+                <div class="timeline-item">
+                    <h3 style="color: var(--ink-black); font-size: 1.2rem; margin-bottom: 0.5rem;" data-en="Master of Science in Computer Science" data-zh="计算机科学硕士">Master of Science in Computer Science</h3>
+                    <p style="color: var(--plum-red); font-weight: 600;" data-en="New York Institute of Technology" data-zh="纽约理工学院">New York Institute of Technology</p>
+                    <p style="color: var(--ink-gray-500);" data-en="Jan 2017 - Dec 2018" data-zh="2017年1月 - 2018年12月">Jan 2017 - Dec 2018</p>
                 </div>
-                <div class="timeline-item" style="animation-delay: 1.4s;">
-                    <h3 style="color: var(--ink-black);">Bachelor of Science</h3>
-                    <p style="color: var(--plum-red); font-weight: 600;">Zhongyuan University of Technology</p>
-                    <p style="color: var(--ink-gray-500);">Sep 2008 - July 2012</p>
+                <div class="timeline-item">
+                    <h3 style="color: var(--ink-black); font-size: 1.2rem; margin-bottom: 0.5rem;" data-en="Bachelor of Science" data-zh="理学学士">Bachelor of Science</h3>
+                    <p style="color: var(--plum-red); font-weight: 600;" data-en="Zhongyuan University of Technology" data-zh="中原工学院">Zhongyuan University of Technology</p>
+                    <p style="color: var(--ink-gray-500);" data-en="Sep 2008 - July 2012" data-zh="2008年9月 - 2012年7月">Sep 2008 - July 2012</p>
                 </div>
             </div>
         </section>
 
         <!-- Skills Section -->
         <section class="section" id="skills">
-            <h2 class="section-title">Technical Skills</h2>
-            <p class="section-subtitle">技能 • Expertise</p>
+            <h2 class="section-title" data-en="Technical Skills" data-zh="技术技能">Technical Skills</h2>
+            <p class="section-subtitle" data-en="技能 • Expertise" data-zh="Expertise • 专业领域">技能 • Expertise</p>
             <div class="skills-container">
                 <div class="skill-card">
-                    <h4>Programming Languages</h4>
+                    <h4 data-en="Programming Languages" data-zh="编程语言">Programming Languages</h4>
                     <div class="skill-tags">
                         <span class="skill-tag">Python</span>
                         <span class="skill-tag">Java</span>
@@ -1566,7 +1956,7 @@
                     </div>
                 </div>
                 <div class="skill-card">
-                    <h4>Machine Learning & AI</h4>
+                    <h4 data-en="Machine Learning & AI" data-zh="机器学习与人工智能">Machine Learning & AI</h4>
                     <div class="skill-tags">
                         <span class="skill-tag">PyTorch</span>
                         <span class="skill-tag">TensorFlow</span>
@@ -1579,7 +1969,7 @@
                     </div>
                 </div>
                 <div class="skill-card">
-                    <h4>Web Development</h4>
+                    <h4 data-en="Web Development" data-zh="网页开发">Web Development</h4>
                     <div class="skill-tags">
                         <span class="skill-tag">HTML/CSS</span>
                         <span class="skill-tag">JavaScript</span>
@@ -1591,7 +1981,7 @@
                     </div>
                 </div>
                 <div class="skill-card">
-                    <h4>Data & Big Data</h4>
+                    <h4 data-en="Data & Big Data" data-zh="数据与大数据">Data & Big Data</h4>
                     <div class="skill-tags">
                         <span class="skill-tag">MySQL</span>
                         <span class="skill-tag">MongoDB</span>
@@ -1611,85 +2001,124 @@
 
         <!-- Awards Section -->
         <section class="section" id="awards">
-            <h2 class="section-title">Awards & Achievements</h2>
-            <p class="section-subtitle">荣誉 • Honors</p>
+            <h2 class="section-title" data-en="Awards & Achievements" data-zh="荣誉与成就">Awards & Achievements</h2>
+            <p class="section-subtitle" data-en="荣誉 • Honors" data-zh="Honors • 荣誉奖项">荣誉 • Honors</p>
             <div class="awards-container">
                 <div class="award-item">
-                    <div class="award-title">🎓 Stony Brook University GAANN Fellowship Award</div>
+                    <div class="award-title" data-en="🎓 Stony Brook University GAANN Fellowship Award" data-zh="🎓 石溪大学GAANN奖学金">🎓 Stony Brook University GAANN Fellowship Award</div>
                     <div class="award-details">2023-2024</div>
                 </div>
                 <div class="award-item">
-                    <div class="award-title">🏆 Best Paper Honorable Mention Award</div>
-                    <div class="award-details">UIST 2021 - Top 5%</div>
+                    <div class="award-title" data-en="🏆 Best Paper Honorable Mention Award" data-zh="🏆 最佳论文荣誉提名奖">🏆 Best Paper Honorable Mention Award</div>
+                    <div class="award-details" data-en="UIST 2021 - Top 5%" data-zh="UIST 2021 - 前5%">UIST 2021 - Top 5%</div>
                 </div>
                 <div class="award-item">
-                    <div class="award-title">🏆 Best Paper Honorable Mention Award</div>
-                    <div class="award-details">China CHI 2021 - Top 5%</div>
+                    <div class="award-title" data-en="🏆 Best Paper Honorable Mention Award" data-zh="🏆 最佳论文荣誉提名奖">🏆 Best Paper Honorable Mention Award</div>
+                    <div class="award-details" data-en="China CHI 2021 - Top 5%" data-zh="China CHI 2021 - 前5%">China CHI 2021 - Top 5%</div>
                 </div>
                 <div class="award-item">
-                    <div class="award-title">🥉 Kaggle Competition Bronze Medal</div>
-                    <div class="award-details">CIBMTR - Equity in post-HCT Survival Predictions (2025) - Top 6%</div>
+                    <div class="award-title" data-en="🥉 Kaggle Competition Bronze Medal" data-zh="🥉 Kaggle竞赛铜牌">🥉 Kaggle Competition Bronze Medal</div>
+                    <div class="award-details" data-en="CIBMTR - Equity in post-HCT Survival Predictions (2025) - Top 6%" data-zh="CIBMTR - HCT后生存预测公平性 (2025) - 前6%">CIBMTR - Equity in post-HCT Survival Predictions (2025) - Top 6%</div>
                 </div>
                 <div class="award-item">
-                    <div class="award-title">🥈 Kaggle Competition Silver Medal</div>
-                    <div class="award-details">OTTO - Multi-Objective Recommender System (2023) - Top 4%</div>
+                    <div class="award-title" data-en="🥈 Kaggle Competition Silver Medal" data-zh="🥈 Kaggle竞赛银牌">🥈 Kaggle Competition Silver Medal</div>
+                    <div class="award-details" data-en="OTTO - Multi-Objective Recommender System (2023) - Top 4%" data-zh="OTTO - 多目标推荐系统 (2023) - 前4%">OTTO - Multi-Objective Recommender System (2023) - Top 4%</div>
                 </div>
             </div>
         </section>
 
         <!-- Certificates Section -->
         <section class="section" id="certifications">
-            <h2 class="section-title">Certifications</h2>
-            <p class="section-subtitle">证书 • Credentials</p>
+            <h2 class="section-title" data-en="Certifications" data-zh="证书">Certifications</h2>
+            <p class="section-subtitle" data-en="证书 • Credentials" data-zh="Credentials • 资质认证">证书 • Credentials</p>
             <div class="certificates-container">
+                <!-- edX Certificates -->
                 <div class="certificate-item">
                     <a href="https://courses.edx.org/certificates/706c546da0384a129973cc7ebc53c0f9" target="_blank">
-                        📜 Large Language Models: Application through Production
+                        <!-- edX Official Logo -->
+                        <svg class="cert-logo" viewBox="0 0 60 28" xmlns="http://www.w3.org/2000/svg" style="width: 45px; height: 22px;">
+                            <rect x="0" y="0" width="60" height="28" rx="3" fill="#02262B"/>
+                            <text x="5" y="20" font-family="Georgia, serif" font-size="16" fill="#FFFFFF">ed</text>
+                            <text x="28" y="21" font-family="Georgia, serif" font-size="18" font-weight="bold" fill="#FFFFFF">X</text>
+                        </svg>
+                        <span data-en="Large Language Models: Application through Production" data-zh="大型语言模型：从应用到生产">Large Language Models: Application through Production</span>
                     </a>
                 </div>
                 <div class="certificate-item">
                     <a href="https://courses.edx.org/certificates/29803b7e5b724a65aa13cfbe34807783" target="_blank">
-                        📜 Large Language Models: Foundation Models from the Ground Up
+                        <!-- edX Official Logo -->
+                        <svg class="cert-logo" viewBox="0 0 60 28" xmlns="http://www.w3.org/2000/svg" style="width: 45px; height: 22px;">
+                            <rect x="0" y="0" width="60" height="28" rx="3" fill="#02262B"/>
+                            <text x="5" y="20" font-family="Georgia, serif" font-size="16" fill="#FFFFFF">ed</text>
+                            <text x="28" y="21" font-family="Georgia, serif" font-size="18" font-weight="bold" fill="#FFFFFF">X</text>
+                        </svg>
+                        <span data-en="Large Language Models: Foundation Models from the Ground Up" data-zh="大型语言模型：从零开始的基础模型">Large Language Models: Foundation Models from the Ground Up</span>
                     </a>
                 </div>
+                <!-- Coursera Certificates -->
                 <div class="certificate-item">
                     <a href="https://www.coursera.org/account/accomplishments/verify/25RLXHHB5MRP" target="_blank">
-                        📜 Generative AI with Large Language Models
+                        <!-- Coursera Official Logo - Text based -->
+                        <svg class="cert-logo" viewBox="0 0 100 24" xmlns="http://www.w3.org/2000/svg" style="width: 70px; height: 20px;">
+                            <text x="0" y="18" font-family="Arial, sans-serif" font-size="18" font-weight="600" fill="#0056D2">coursera</text>
+                        </svg>
+                        <span data-en="Generative AI with Large Language Models" data-zh="大型语言模型的生成式AI">Generative AI with Large Language Models</span>
                     </a>
                 </div>
                 <div class="certificate-item">
                     <a href="https://www.coursera.org/account/accomplishments/records/UT2TV628KGW6" target="_blank">
-                        📜 Generative AI for Everyone
+                        <svg class="cert-logo" viewBox="0 0 100 24" xmlns="http://www.w3.org/2000/svg" style="width: 70px; height: 20px;">
+                            <text x="0" y="18" font-family="Arial, sans-serif" font-size="18" font-weight="600" fill="#0056D2">coursera</text>
+                        </svg>
+                        <span data-en="Generative AI for Everyone" data-zh="人人都能用的生成式AI">Generative AI for Everyone</span>
                     </a>
                 </div>
                 <div class="certificate-item">
                     <a href="https://www.coursera.org/account/accomplishments/specialization/certificate/9MRWZ4P2KHVP" target="_blank">
-                        📜 Deep Learning Specialization
+                        <svg class="cert-logo" viewBox="0 0 100 24" xmlns="http://www.w3.org/2000/svg" style="width: 70px; height: 20px;">
+                            <text x="0" y="18" font-family="Arial, sans-serif" font-size="18" font-weight="600" fill="#0056D2">coursera</text>
+                        </svg>
+                        <span data-en="Deep Learning Specialization" data-zh="深度学习专项课程">Deep Learning Specialization</span>
                     </a>
                 </div>
                 <div class="certificate-item">
                     <a href="https://www.coursera.org/account/accomplishments/specialization/certificate/5G3WCYPSP8Y5" target="_blank">
-                        📜 Machine Learning Specialization
+                        <svg class="cert-logo" viewBox="0 0 100 24" xmlns="http://www.w3.org/2000/svg" style="width: 70px; height: 20px;">
+                            <text x="0" y="18" font-family="Arial, sans-serif" font-size="18" font-weight="600" fill="#0056D2">coursera</text>
+                        </svg>
+                        <span data-en="Machine Learning Specialization" data-zh="机器学习专项课程">Machine Learning Specialization</span>
                     </a>
                 </div>
                 <div class="certificate-item">
                     <a href="https://www.coursera.org/account/accomplishments/verify/5A8ABEDJQCSC" target="_blank">
-                        📜 Machine Learning
+                        <svg class="cert-logo" viewBox="0 0 100 24" xmlns="http://www.w3.org/2000/svg" style="width: 70px; height: 20px;">
+                            <text x="0" y="18" font-family="Arial, sans-serif" font-size="18" font-weight="600" fill="#0056D2">coursera</text>
+                        </svg>
+                        <span data-en="Machine Learning" data-zh="机器学习">Machine Learning</span>
                     </a>
                 </div>
                 <div class="certificate-item">
                     <a href="https://www.coursera.org/account/accomplishments/certificate/M5N8PYP6EXMZ" target="_blank">
-                        📜 Introduction to Machine Learning in Production
+                        <svg class="cert-logo" viewBox="0 0 100 24" xmlns="http://www.w3.org/2000/svg" style="width: 70px; height: 20px;">
+                            <text x="0" y="18" font-family="Arial, sans-serif" font-size="18" font-weight="600" fill="#0056D2">coursera</text>
+                        </svg>
+                        <span data-en="Introduction to Machine Learning in Production" data-zh="生产环境中的机器学习入门">Introduction to Machine Learning in Production</span>
                     </a>
                 </div>
                 <div class="certificate-item">
                     <a href="https://www.coursera.org/account/accomplishments/certificate/E8PHLUCJBUV3" target="_blank">
-                        📜 Natural Language Processing with Classification and Vector Spaces
+                        <svg class="cert-logo" viewBox="0 0 100 24" xmlns="http://www.w3.org/2000/svg" style="width: 70px; height: 20px;">
+                            <text x="0" y="18" font-family="Arial, sans-serif" font-size="18" font-weight="600" fill="#0056D2">coursera</text>
+                        </svg>
+                        <span data-en="Natural Language Processing with Classification and Vector Spaces" data-zh="自然语言处理：分类与向量空间">Natural Language Processing with Classification and Vector Spaces</span>
                     </a>
                 </div>
                 <div class="certificate-item">
                     <a href="https://www.coursera.org/account/accomplishments/certificate/M62WBTVAHBQX" target="_blank">
-                        📜 AI for Medical Diagnosis
+                        <svg class="cert-logo" viewBox="0 0 100 24" xmlns="http://www.w3.org/2000/svg" style="width: 70px; height: 20px;">
+                            <text x="0" y="18" font-family="Arial, sans-serif" font-size="18" font-weight="600" fill="#0056D2">coursera</text>
+                        </svg>
+                        <span data-en="AI for Medical Diagnosis" data-zh="AI医学诊断">AI for Medical Diagnosis</span>
                     </a>
                 </div>
             </div>
@@ -1697,51 +2126,96 @@
 
         <!-- Academic Service Section -->
         <section class="section" id="service">
-            <h2 class="section-title">Academic Service</h2>
-            <p class="section-subtitle">学术服务 • Service</p>
+            <h2 class="section-title" data-en="Academic Service" data-zh="学术服务">Academic Service</h2>
+            <p class="section-subtitle" data-en="学术服务 • Service" data-zh="Service • 学术贡献">学术服务 • Service</p>
             <div class="service-container">
                 <ul class="service-list">
-                    <li>Reviewer for UIST 2024</li>
-                    <li>Reviewer for CHI 2024</li>
-                    <li>Reviewer for UIST 2022</li>
+                    <li data-en="Reviewer for UIST 2024" data-zh="UIST 2024 审稿人">Reviewer for UIST 2024</li>
+                    <li data-en="Reviewer for CHI 2024" data-zh="CHI 2024 审稿人">Reviewer for CHI 2024</li>
+                    <li data-en="Reviewer for UIST 2022" data-zh="UIST 2022 审稿人">Reviewer for UIST 2022</li>
                 </ul>
             </div>
         </section>
 
         <!-- About Me Section -->
         <section class="section" id="personal">
-            <h2 class="section-title">About Me</h2>
-            <p class="section-subtitle">关于我 • Personal</p>
+            <h2 class="section-title" data-en="About Me" data-zh="关于我">About Me</h2>
+            <p class="section-subtitle" data-en="关于我 • Personal" data-zh="Personal • 个人生活">关于我 • Personal</p>
             <div class="about-container">
                 <div class="about-logos">
                     <div class="about-item">
                         <div class="about-icon-wrapper">
-                            <!-- LeetCode Logo SVG -->
-                            <svg class="leetcode-logo" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <!-- LeetCode Logo -->
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M13.483 0a1.374 1.374 0 0 0-.961.438L7.116 6.226l-3.854 4.126a5.266 5.266 0 0 0-1.209 2.104 5.35 5.35 0 0 0-.125.513 5.527 5.527 0 0 0 .062 2.362 5.83 5.83 0 0 0 .349 1.017 5.938 5.938 0 0 0 1.271 1.818l4.277 4.193.039.038c2.248 2.165 5.852 2.133 8.063-.074l2.396-2.392c.54-.54.54-1.414.003-1.955a1.378 1.378 0 0 0-1.951-.003l-2.396 2.392a3.021 3.021 0 0 1-4.205.038l-.02-.019-4.276-4.193c-.652-.64-.972-1.469-.948-2.263a2.68 2.68 0 0 1 .066-.523 2.545 2.545 0 0 1 .619-1.164L9.13 8.114c1.058-1.134 3.204-1.27 4.43-.278l3.501 2.831c.593.48 1.461.387 1.94-.207a1.384 1.384 0 0 0-.207-1.943l-3.5-2.831c-.8-.647-1.766-1.045-2.774-1.202l2.015-2.158A1.384 1.384 0 0 0 13.483 0zm-2.866 12.815a1.38 1.38 0 0 0-1.38 1.382 1.38 1.38 0 0 0 1.38 1.382H20.79a1.38 1.38 0 0 0 1.38-1.382 1.38 1.38 0 0 0-1.38-1.382z" fill="#FFA116"/>
                             </svg>
                         </div>
                         <div class="about-label">
-                            Leetcoder
-                            <div class="about-sublabel">Algorithm Enthusiast</div>
+                            <span data-en="Leetcoder" data-zh="力扣玩家">Leetcoder</span>
+                            <div class="about-sublabel" data-en="Algorithm Enthusiast" data-zh="算法爱好者">Algorithm Enthusiast</div>
                         </div>
                     </div>
                     <div class="about-item">
                         <div class="about-icon-wrapper">
-                            <!-- Kaggle Logo SVG -->
-                            <svg class="kaggle-logo" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Kaggle Logo -->
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M18.825 23.859c-.022.092-.117.141-.281.141h-3.139c-.187 0-.351-.082-.492-.248l-5.178-6.589-1.448 1.374v5.111c0 .235-.117.352-.351.352H5.505c-.236 0-.354-.117-.354-.352V.353c0-.233.118-.353.354-.353h2.431c.234 0 .351.12.351.353v14.343l6.203-6.272c.165-.165.33-.246.495-.246h3.239c.144 0 .236.06.285.18.046.149.034.255-.036.315l-6.555 6.344 6.836 8.507c.095.104.117.208.07.358" fill="#20BEFF"/>
                             </svg>
                         </div>
                         <div class="about-label">
-                            Kaggler
-                            <div class="about-sublabel">Data Science Competitor</div>
+                            <span data-en="Kaggler" data-zh="Kaggle玩家">Kaggler</span>
+                            <div class="about-sublabel" data-en="Data Science Competitor" data-zh="数据科学竞赛者">Data Science Competitor</div>
                         </div>
                     </div>
                     <div class="about-item">
                         <div class="about-icon-wrapper">
-                            <!-- Family Icon SVG - More elegant design -->
-                            <svg class="family-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <!-- USACO Logo - Binary Tree -->
+                            <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                                <!-- Connecting lines -->
+                                <line x1="24" y1="8" x2="12" y2="18" stroke="#4a4a4a" stroke-width="2"/>
+                                <line x1="24" y1="8" x2="36" y2="18" stroke="#4a4a4a" stroke-width="2"/>
+                                <line x1="12" y1="18" x2="6" y2="28" stroke="#4a4a4a" stroke-width="2"/>
+                                <line x1="12" y1="18" x2="18" y2="28" stroke="#4a4a4a" stroke-width="2"/>
+                                <line x1="36" y1="18" x2="30" y2="28" stroke="#4a4a4a" stroke-width="2"/>
+                                <line x1="36" y1="18" x2="42" y2="28" stroke="#4a4a4a" stroke-width="2"/>
+                                <line x1="6" y1="28" x2="3" y2="38" stroke="#4a4a4a" stroke-width="2"/>
+                                <line x1="6" y1="28" x2="9" y2="38" stroke="#4a4a4a" stroke-width="2"/>
+                                <line x1="18" y1="28" x2="15" y2="38" stroke="#4a4a4a" stroke-width="2"/>
+                                <line x1="18" y1="28" x2="21" y2="38" stroke="#4a4a4a" stroke-width="2"/>
+                                <line x1="30" y1="28" x2="27" y2="38" stroke="#4a4a4a" stroke-width="2"/>
+                                <line x1="30" y1="28" x2="33" y2="38" stroke="#4a4a4a" stroke-width="2"/>
+                                <line x1="42" y1="28" x2="39" y2="38" stroke="#4a4a4a" stroke-width="2"/>
+                                <line x1="42" y1="28" x2="45" y2="38" stroke="#4a4a4a" stroke-width="2"/>
+                                <!-- Root node -->
+                                <circle cx="24" cy="8" r="4" fill="#4472C4"/>
+                                <!-- Level 2 nodes -->
+                                <circle cx="12" cy="18" r="4" fill="#4472C4"/>
+                                <circle cx="36" cy="18" r="4" fill="#4472C4"/>
+                                <!-- Level 3 nodes -->
+                                <circle cx="6" cy="28" r="4" fill="#4472C4"/>
+                                <circle cx="18" cy="28" r="4" fill="#4472C4"/>
+                                <circle cx="30" cy="28" r="4" fill="#4472C4"/>
+                                <circle cx="42" cy="28" r="4" fill="#4472C4"/>
+                                <!-- Level 4 (leaf) nodes -->
+                                <circle cx="3" cy="38" r="3" fill="#4472C4"/>
+                                <circle cx="9" cy="38" r="3" fill="#4472C4"/>
+                                <circle cx="15" cy="38" r="3" fill="#4472C4"/>
+                                <circle cx="21" cy="38" r="3" fill="#4472C4"/>
+                                <circle cx="27" cy="38" r="3" fill="#4472C4"/>
+                                <circle cx="33" cy="38" r="3" fill="#4472C4"/>
+                                <circle cx="39" cy="38" r="3" fill="#4472C4"/>
+                                <circle cx="45" cy="38" r="3" fill="#4472C4"/>
+                            </svg>
+                        </div>
+                        <div class="about-label">
+                            <span data-en="USACOer" data-zh="USACO选手">USACOer</span>
+                            <div class="about-sublabel" data-en="Competitive Programming" data-zh="竞技编程">Competitive Programming</div>
+                        </div>
+                    </div>
+                    <div class="about-item">
+                        <div class="about-icon-wrapper">
+                            <!-- Family Icon -->
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <defs>
                                     <linearGradient id="familyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
                                         <stop offset="0%" style="stop-color:#7fb069;stop-opacity:1" />
@@ -1749,12 +2223,10 @@
                                     </linearGradient>
                                 </defs>
                                 <g fill="url(#familyGrad)">
-                                    <!-- Parents -->
                                     <circle cx="8" cy="5" r="2"/>
                                     <path d="M8 7c-1.5 0-3 1-3 2.5V12h6V9.5C11 8 9.5 7 8 7z"/>
                                     <circle cx="16" cy="5" r="2"/>
                                     <path d="M16 7c-1.5 0-3 1-3 2.5V12h6V9.5C19 8 17.5 7 16 7z"/>
-                                    <!-- Children -->
                                     <circle cx="7" cy="15" r="1.5"/>
                                     <path d="M7 16.5c-1 0-2 .7-2 1.75V21h4v-2.75c0-1.05-1-1.75-2-1.75z"/>
                                     <circle cx="17" cy="15" r="1.5"/>
@@ -1763,8 +2235,8 @@
                             </svg>
                         </div>
                         <div class="about-label">
-                            Family Man
-                            <div class="about-sublabel">Husband & Father of Two Boys</div>
+                            <span data-en="Family Man" data-zh="家庭至上">Family Man</span>
+                            <div class="about-sublabel" data-en="Husband & Father of Two Boys" data-zh="丈夫与两个男孩的父亲">Husband & Father of Two Boys</div>
                         </div>
                     </div>
                 </div>
@@ -1775,63 +2247,151 @@
     <!-- Footer -->
     <footer id="contact">
         <div class="footer-links">
-            <a href="https://www.linkedin.com/in/realhangzhao/" target="_blank">LinkedIn</a>
-            <a href="https://scholar.google.com/citations?user=1TuuiUgAAAAJ&hl=en&oi=ao" target="_blank">Google Scholar</a>
-            <a href="/cdn-cgi/l/email-protection#8fe7eee1e8f5e7eee0bdbfbdbecfe8e2eee6e3a1ece0e2">Email</a>
+            <a href="https://www.linkedin.com/in/realhangzhao/" target="_blank">
+                <!-- LinkedIn Logo -->
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" fill="currentColor"/>
+                </svg>
+                LinkedIn
+            </a>
+            <a href="https://scholar.google.com/citations?user=1TuuiUgAAAAJ&hl=en&oi=ao" target="_blank">
+                <!-- Google Scholar Logo -->
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 24a7 7 0 1 1 0-14 7 7 0 0 1 0 14zm0-24L0 9.5l4.838 3.94A8 8 0 0 1 12 9a8 8 0 0 1 7.162 4.44L24 9.5z" fill="currentColor"/>
+                </svg>
+                <span data-en="Google Scholar" data-zh="谷歌学术">Google Scholar</span>
+            </a>
+            <a href="mailto:hangzhao2021@gmail.com">
+                <!-- Email Icon -->
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <polyline points="22,6 12,13 2,6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span data-en="Email" data-zh="邮箱">Email</span>
+            </a>
         </div>
         <div class="footer-divider"></div>
-        <p style="margin-bottom: 0.5rem; color: var(--ink-gray-700);">📧 <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="1f777e717865777e702d2f2d2e5f78727e7673317c7072">[email&#160;protected]</a></p>
-        <p class="footer-copyright">© 2021 - 2025 Hang Zhao. All rights reserved.</p>
+        <p style="margin-bottom: 0.5rem; color: var(--ink-gray-700);">📧 hangzhao2021@gmail.com</p>
+        <p class="footer-copyright" data-en="© 2021 - 2025 Hang Zhao. All rights reserved." data-zh="© 2021 - 2025 赵航 版权所有">© 2021 - 2025 Hang Zhao. All rights reserved.</p>
     </footer>
 
-    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-        // Immediately hide loader
-        document.addEventListener('DOMContentLoaded', function() {
-            const loader = document.getElementById('loader');
-            if (loader) {
-                loader.style.display = 'none';
+    <script>
+        // Language switching functionality
+        let currentLang = 'en';
+
+        function switchLanguage(lang) {
+            currentLang = lang;
+            
+            // Update active button
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.dataset.lang === lang) {
+                    btn.classList.add('active');
+                }
+            });
+
+            // Update all translatable elements
+            document.querySelectorAll('[data-en][data-zh]').forEach(el => {
+                const text = el.dataset[lang];
+                if (text) {
+                    if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+                        el.placeholder = text;
+                    } else {
+                        el.innerHTML = text;
+                    }
+                }
+            });
+
+            // Update HTML lang attribute
+            document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
+        }
+
+        // Add click event listeners to language buttons
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                switchLanguage(btn.dataset.lang);
+            });
+        });
+
+        // Back to top button functionality
+        const backToTopBtn = document.getElementById('backToTop');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 500) {
+                backToTopBtn.classList.add('visible');
+            } else {
+                backToTopBtn.classList.remove('visible');
             }
         });
 
-        // Create Bamboo Leaves
+        backToTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Enhanced Bamboo Leaves
         function createBambooLeaves() {
             const bambooContainer = document.getElementById('bambooLeaves');
-            for (let i = 0; i < 10; i++) {
+            const leafCount = 12;
+            
+            for (let i = 0; i < leafCount; i++) {
                 const leaf = document.createElement('div');
                 leaf.className = 'leaf';
+                
+                const size = 0.6 + Math.random() * 0.8;
+                leaf.style.width = (25 * size) + 'px';
+                leaf.style.height = (55 * size) + 'px';
                 leaf.style.left = Math.random() * 100 + '%';
-                leaf.style.animationDelay = Math.random() * 15 + 's';
-                leaf.style.animationDuration = (15 + Math.random() * 10) + 's';
+                
+                const duration = 18 + Math.random() * 12;
+                leaf.style.animationDuration = duration + 's';
+                leaf.style.animationDelay = Math.random() * duration + 's';
+                leaf.style.animation = `leafFall ${duration}s infinite linear`;
+                
                 bambooContainer.appendChild(leaf);
             }
         }
         createBambooLeaves();
 
         // Scroll Progress Bar
+        let ticking = false;
         window.addEventListener('scroll', () => {
-            const scrollProgress = document.getElementById('scrollProgress');
-            const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
-            const scrolled = (window.scrollY / scrollHeight) * 100;
-            scrollProgress.style.width = scrolled + '%';
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    const scrollProgress = document.getElementById('scrollProgress');
+                    const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+                    const scrolled = (window.scrollY / scrollHeight) * 100;
+                    scrollProgress.style.width = scrolled + '%';
+                    ticking = false;
+                });
+                ticking = true;
+            }
         });
 
         // Navigation Scroll Effect
+        let lastScroll = 0;
         window.addEventListener('scroll', () => {
             const navbar = document.getElementById('navbar');
-            if (window.scrollY > 50) {
+            const currentScroll = window.scrollY;
+            
+            if (currentScroll > 50) {
                 navbar.classList.add('scrolled');
             } else {
                 navbar.classList.remove('scrolled');
             }
+            
+            lastScroll = currentScroll;
         });
 
-        // Intersection Observer for Section Animations
+        // Intersection Observer for Sections
         const observerOptions = {
             threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
+            rootMargin: '0px 0px -80px 0px'
         };
 
-        const observer = new IntersectionObserver((entries) => {
+        const sectionObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('visible');
@@ -1840,77 +2400,89 @@
         }, observerOptions);
 
         document.querySelectorAll('.section').forEach(section => {
-            observer.observe(section);
+            sectionObserver.observe(section);
         });
 
-        // Smooth Scrolling
+        // Timeline items observer
+        const timelineObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.classList.add('visible');
+                    }, index * 150);
+                }
+            });
+        }, { threshold: 0.3 });
+
+        document.querySelectorAll('.timeline-item').forEach(item => {
+            timelineObserver.observe(item);
+        });
+
+        // Smooth Scrolling for Anchor Links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
                 const target = document.querySelector(this.getAttribute('href'));
                 if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
+                    const headerOffset = 100;
+                    const elementPosition = target.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
                     });
                 }
             });
         });
 
         // Dynamic Navigation Highlight
+        const sections = document.querySelectorAll('section[id]');
+        const navLinks = document.querySelectorAll('.nav-links a');
+
         window.addEventListener('scroll', () => {
-            const sections = document.querySelectorAll('section[id]');
-            const navLinks = document.querySelectorAll('.nav-links a');
-            
             let current = '';
+            
             sections.forEach(section => {
                 const sectionTop = section.offsetTop;
                 const sectionHeight = section.clientHeight;
-                if (window.pageYOffset >= sectionTop - 100) {
+                if (window.pageYOffset >= sectionTop - 150) {
                     current = section.getAttribute('id');
                 }
             });
 
             navLinks.forEach(link => {
-                link.classList.remove('active');
+                link.style.color = '';
                 if (link.getAttribute('href').slice(1) === current) {
                     link.style.color = 'var(--plum-red)';
-                } else {
-                    link.style.color = '';
                 }
             });
         });
 
-        // Create Ink Drips
+        // Ink Drip Effect
         function createInkDrip() {
             const drip = document.createElement('div');
             drip.className = 'ink-drip';
-            drip.style.left = Math.random() * window.innerWidth + 'px';
-            drip.style.animationDelay = Math.random() * 5 + 's';
+            drip.style.left = (Math.random() * 80 + 10) + '%';
+            drip.style.animation = 'inkDrip 4s ease-out forwards';
             document.body.appendChild(drip);
             
             setTimeout(() => {
                 drip.remove();
-            }, 3000);
+            }, 4000);
         }
 
-        // Create ink drips occasionally
-        setInterval(createInkDrip, 8000);
+        setInterval(createInkDrip, 12000);
 
-        // Timeline Animation on Scroll
-        const timelineItems = document.querySelectorAll('.timeline-item');
-        const timelineObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateX(0)';
-                }
-            });
-        }, { threshold: 0.5 });
-
-        timelineItems.forEach(item => {
-            timelineObserver.observe(item);
+        // Parallax effect for mountain background
+        window.addEventListener('scroll', () => {
+            const mountain = document.querySelector('.mountain-landscape');
+            const scrolled = window.pageYOffset;
+            mountain.style.transform = `translateY(${scrolled * 0.15}px)`;
         });
+
+        // Initial load
+        document.body.style.opacity = '1';
     </script>
 </body>
 </html>
